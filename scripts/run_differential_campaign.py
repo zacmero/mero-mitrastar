@@ -1,0 +1,789 @@
+#!/usr/bin/env python3
+"""
+MERO-STB-LAB: Differential Experiment Campaign Runner
+Automates the execution of up to 12 distinct differential test cases against
+the set-top box, monitoring experiment_transactions.jsonl for receiver-originated evidence.
+"""
+
+import os
+import sys
+import time
+import json
+import hashlib
+import urllib.request
+import urllib.parse
+
+HARNESS_URL = "http://127.0.0.1:8080/_harness/set_case"
+JSONL_LOG = "/home/zacmero/projects/mero-stb-lab/captures/experiment_transactions.jsonl"
+EVIDENCE_TABLE = "/home/zacmero/projects/mero-stb-lab/captures/differential_results.json"
+
+# Definition of the 12 Bounded Test Cases
+CASES = [
+    {
+        "case_id": "CASE-00-BASELINE",
+        "description": "Repeatable baseline - minimal JSON, no navigation fields, no redirects",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Control baseline",
+        "bussola_status": 200,
+        "bussola_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "bussola_body": json.dumps({"status": "ok", "code": 0}),
+        "appconfig_status": 200,
+        "appconfig_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "appconfig_body": json.dumps({"status": "ok", "code": 0}),
+        "expected_marker": None
+    },
+    {
+        "case_id": "CASE-01-BUSSOLA-URL",
+        "description": "Candidate key: url (top-level string in 200 JSON)",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Guess (REST convention)",
+        "bussola_status": 200,
+        "bussola_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "url": "http://191.32.31.251/marker/bussola_c01_url"}),
+        "expected_marker": "/marker/bussola_c01_url"
+    },
+    {
+        "case_id": "CASE-02-BUSSOLA-PORTALURL",
+        "description": "Candidate key: portalUrl (top-level string in 200 JSON)",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Supported by Ekioh ecosystem artifacts",
+        "bussola_status": 200,
+        "bussola_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "portalUrl": "http://191.32.31.251/marker/bussola_c02_portalurl"}),
+        "expected_marker": "/marker/bussola_c02_portalurl"
+    },
+    {
+        "case_id": "CASE-03-BUSSOLA-REDIRECTURL",
+        "description": "Candidate key: redirectUrl (top-level string in 200 JSON)",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Guess (Mirada camelCase convention)",
+        "bussola_status": 200,
+        "bussola_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "redirectUrl": "http://191.32.31.251/marker/bussola_c03_redirecturl"}),
+        "expected_marker": "/marker/bussola_c03_redirecturl"
+    },
+    {
+        "case_id": "CASE-04-BUSSOLA-TARGET",
+        "description": "Candidate key: target (top-level string in 200 JSON)",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Guess (SVG/HTML navigation target)",
+        "bussola_status": 200,
+        "bussola_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "target": "http://191.32.31.251/marker/bussola_c04_target"}),
+        "expected_marker": "/marker/bussola_c04_target"
+    },
+    {
+        "case_id": "CASE-05-BUSSOLA-RESULT-URL",
+        "description": "Candidate structure: result.url (nested object in 200 JSON)",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Supported by Mirada bussola schema references",
+        "bussola_status": 200,
+        "bussola_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "result": {"status": "ok", "url": "http://191.32.31.251/marker/bussola_c05_resulturl"}}),
+        "expected_marker": "/marker/bussola_c05_resulturl"
+    },
+    {
+        "case_id": "CASE-06-BUSSOLA-DATA-URL",
+        "description": "Candidate structure: data.url (nested object in 200 JSON)",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Guess (JSON-RPC wrapper convention)",
+        "bussola_status": 200,
+        "bussola_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "data": {"url": "http://191.32.31.251/marker/bussola_c06_dataurl"}}),
+        "expected_marker": "/marker/bussola_c06_dataurl"
+    },
+    {
+        "case_id": "CASE-07-BUSSOLA-ACTION-OPEN",
+        "description": "Candidate structure: action:open + url (Mirada command in 200 JSON)",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Supported by Mirada middleware action specification",
+        "bussola_status": 200,
+        "bussola_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "action": "open", "url": "http://191.32.31.251/marker/bussola_c07_action"}),
+        "expected_marker": "/marker/bussola_c07_action"
+    },
+    {
+        "case_id": "CASE-08-BUSSOLA-VODURL",
+        "description": "Candidate key: vodUrl (query-informed parameter matching type=vod)",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Supported by observed query parameter type=vod",
+        "bussola_status": 200,
+        "bussola_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "vodUrl": "http://191.32.31.251/marker/bussola_c08_vodurl"}),
+        "expected_marker": "/marker/bussola_c08_vodurl"
+    },
+    {
+        "case_id": "CASE-09-BUSSOLA-ISOLATED-302",
+        "description": "Isolated HTTP 302 redirect test with Location header",
+        "endpoint": "/bussola/redirect",
+        "provenance": "HTTP-layer redirection baseline",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Location": "http://191.32.31.251/marker/bussola_c09_302"
+        },
+        "bussola_body": json.dumps({"status": "redirect"}),
+        "expected_marker": "/marker/bussola_c09_302"
+    },
+    {
+        "case_id": "CASE-10-APPCONFIG-PORTALURL",
+        "description": "Candidate key: portalUrl in appConfigFit.json",
+        "endpoint": "/tv-config/appConfigFit.json",
+        "provenance": "Supported by Sagemcom application config artifacts",
+        "appconfig_status": 200,
+        "appconfig_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "appconfig_body": json.dumps({"status": "ok", "code": 0, "portalUrl": "http://191.32.31.251/marker/cfg_c10_portalurl"}),
+        "expected_marker": "/marker/cfg_c10_portalurl"
+    },
+    {
+        "case_id": "CASE-11-APPCONFIG-STARTURL",
+        "description": "Candidate key: startUrl in appConfigFit.json",
+        "endpoint": "/tv-config/appConfigFit.json",
+        "provenance": "Supported by Sagemcom firmware strings",
+        "appconfig_status": 200,
+        "appconfig_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "appconfig_body": json.dumps({"status": "ok", "code": 0, "startUrl": "http://191.32.31.251/marker/cfg_c11_starturl"}),
+        "expected_marker": "/marker/cfg_c11_starturl"
+    },
+    {
+        "case_id": "CASE-12-HISTORICAL-PORTAL",
+        "description": "Historical HTTP 302 redirect with Location: /portal.svg",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Historical observation test",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Location": "/portal.svg"
+        },
+        "bussola_body": json.dumps({"status": "redirect"}),
+        "expected_marker": "/portal.svg"
+    },
+    {
+        "case_id": "CASE-13-302-RELATIVE",
+        "description": "HTTP 302 redirect with relative Location: /marker/bussola_c13_relative",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Relative HTTP 302 redirect test",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Location": "/marker/bussola_c13_relative"
+        },
+        "bussola_body": json.dumps({"status": "redirect"}),
+        "expected_marker": "/marker/bussola_c13_relative"
+    },
+    {
+        "case_id": "CASE-14-302-ABSOLUTE",
+        "description": "HTTP 302 redirect with absolute Location: http://191.32.31.251/marker/bussola_c14_absolute",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Absolute HTTP 302 redirect test",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Location": "http://191.32.31.251/marker/bussola_c14_absolute"
+        },
+        "bussola_body": json.dumps({"status": "redirect"}),
+        "expected_marker": "/marker/bussola_c14_absolute"
+    },
+    {
+        "case_id": "CASE-15-EXACT-HISTORICAL-D085",
+        "description": "Historical replay of commit d08504f /bussola/redirect 302 response with full JSON body and headers",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Commit d08504f exact replay",
+        "http_version": "HTTP/1.0",
+        "server_header": "gvt-probe",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Location": "/portal.svg",
+            "Access-Control-Allow-Origin": "*",
+            "Connection": "close"
+        },
+        "bussola_body": json.dumps({
+            "status": "ok",
+            "code": 0,
+            "url": "/portal.svg",
+            "redirect": "/portal.svg",
+            "redirectUrl": "/portal.svg",
+            "portalUrl": "/portal.svg",
+            "vodUrl": "/portal.svg",
+            "target": "/portal.svg",
+            "location": "/portal.svg",
+            "destination": "/portal.svg",
+            "result": {
+                "url": "/portal.svg",
+                "status": "ok"
+            },
+            "data": {
+                "url": "/portal.svg"
+            }
+        }, indent=2),
+        "expected_marker": "/portal.svg"
+    },
+    {
+        "case_id": "CASE-16-302-EMPTY-BODY",
+        "description": "HTTP 302 redirect with Location: /portal.svg and completely empty body (0 bytes)",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Response reduction: empty body test",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Location": "/portal.svg",
+            "Content-Length": "0"
+        },
+        "bussola_body": "",
+        "expected_marker": "/portal.svg"
+    },
+    {
+        "case_id": "CASE-17-PORTAL-RENDER-PROBE",
+        "description": "HTTP 302 redirect to /probe.svg with SVG image subresource and script execution triggers",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Execution boundary: SVG rendering and script probe",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Location": "/probe.svg",
+            "Content-Length": "0"
+        },
+        "bussola_body": "",
+        "expected_marker": "/probe.svg"
+    },
+    {
+        "case_id": "CASE-16-HISTORICAL-HTTP11",
+        "description": "One-variable reduction from CASE-15: HTTP/1.1 instead of HTTP/1.0; all redirect headers and historical JSON retained",
+        "endpoint": "/bussola/redirect",
+        "provenance": "CASE-15 one-variable reduction: protocol version",
+        "http_version": "HTTP/1.1",
+        "server_header": "gvt-probe",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Location": "/portal.svg",
+            "Access-Control-Allow-Origin": "*",
+            "Connection": "close"
+        },
+        "bussola_body": json.dumps({
+            "status": "ok", "code": 0, "url": "/portal.svg",
+            "redirect": "/portal.svg", "redirectUrl": "/portal.svg",
+            "portalUrl": "/portal.svg", "vodUrl": "/portal.svg",
+            "target": "/portal.svg", "location": "/portal.svg",
+            "destination": "/portal.svg",
+            "result": {"url": "/portal.svg", "status": "ok"},
+            "data": {"url": "/portal.svg"}
+        }, indent=2),
+        "expected_marker": "/portal.svg"
+    },
+    {
+        "case_id": "CASE-17-HISTORICAL-SERVER-GENERIC",
+        "description": "One-variable reduction from CASE-15: replace Server: gvt-probe with mero-harness/1.0; everything else retained",
+        "endpoint": "/bussola/redirect",
+        "provenance": "CASE-15 one-variable reduction: Server header",
+        "http_version": "HTTP/1.0",
+        "server_header": "mero-harness/1.0",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Location": "/portal.svg",
+            "Access-Control-Allow-Origin": "*",
+            "Connection": "close"
+        },
+        "bussola_body": json.dumps({
+            "status": "ok", "code": 0, "url": "/portal.svg",
+            "redirect": "/portal.svg", "redirectUrl": "/portal.svg",
+            "portalUrl": "/portal.svg", "vodUrl": "/portal.svg",
+            "target": "/portal.svg", "location": "/portal.svg",
+            "destination": "/portal.svg",
+            "result": {"url": "/portal.svg", "status": "ok"},
+            "data": {"url": "/portal.svg"}
+        }, indent=2),
+        "expected_marker": "/portal.svg"
+    },
+    {
+        "case_id": "CASE-18-HISTORICAL-NO-LOCATION",
+        "description": "One-variable reduction from CASE-15: remove Location header while retaining HTTP/1.0, 302, Server header, and full historical JSON",
+        "endpoint": "/bussola/redirect",
+        "provenance": "CASE-15 one-variable reduction: Location header removed",
+        "http_version": "HTTP/1.0",
+        "server_header": "gvt-probe",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*",
+            "Connection": "close"
+        },
+        "bussola_body": json.dumps({
+            "status": "ok", "code": 0, "url": "/portal.svg",
+            "redirect": "/portal.svg", "redirectUrl": "/portal.svg",
+            "portalUrl": "/portal.svg", "vodUrl": "/portal.svg",
+            "target": "/portal.svg", "location": "/portal.svg",
+            "destination": "/portal.svg",
+            "result": {"url": "/portal.svg", "status": "ok"},
+            "data": {"url": "/portal.svg"}
+        }, indent=2),
+        "expected_marker": "/portal.svg"
+    },
+    {
+        "case_id": "CASE-19-302-LOCATION-MINIMAL-BODY",
+        "description": "Reduction test for Location sufficiency: historical HTTP/1.0 302 + Location retained, navigation JSON keys removed",
+        "endpoint": "/bussola/redirect",
+        "provenance": "CASE-15 reduction: retain transport redirect, remove candidate JSON navigation fields",
+        "http_version": "HTTP/1.0",
+        "server_header": "gvt-probe",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Location": "/portal.svg",
+            "Access-Control-Allow-Origin": "*",
+            "Connection": "close"
+        },
+        "bussola_body": json.dumps({"status": "ok", "code": 0}, indent=2),
+        "expected_marker": "/portal.svg"
+    },
+    {
+        "case_id": "CASE-20-JSON-URL-ONLY",
+        "description": "JSON-field isolation: HTTP/1.0 302 without Location; only top-level url points to /portal.svg",
+        "endpoint": "/bussola/redirect",
+        "provenance": "JSON key isolation from CASE-18",
+        "http_version": "HTTP/1.0",
+        "server_header": "gvt-probe",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*",
+            "Connection": "close"
+        },
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "url": "/portal.svg"}, indent=2),
+        "expected_marker": "/portal.svg"
+    },
+    {
+        "case_id": "CASE-21-JSON-PORTALURL-ONLY",
+        "description": "JSON-field isolation: HTTP/1.0 302 without Location; only top-level portalUrl points to /portal.svg",
+        "endpoint": "/bussola/redirect",
+        "provenance": "JSON key isolation from CASE-18",
+        "http_version": "HTTP/1.0",
+        "server_header": "gvt-probe",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*",
+            "Connection": "close"
+        },
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "portalUrl": "/portal.svg"}, indent=2),
+        "expected_marker": "/portal.svg"
+    },
+    {
+        "case_id": "CASE-22-JSON-REDIRECTURL-ONLY",
+        "description": "JSON-field isolation: HTTP/1.0 302 without Location; only top-level redirectUrl points to /portal.svg",
+        "endpoint": "/bussola/redirect",
+        "provenance": "JSON key isolation from CASE-18",
+        "http_version": "HTTP/1.0",
+        "server_header": "gvt-probe",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*",
+            "Connection": "close"
+        },
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "redirectUrl": "/portal.svg"}, indent=2),
+        "expected_marker": "/portal.svg"
+    },
+    {
+        "case_id": "CASE-23-JSON-VODURL-ONLY",
+        "description": "JSON-field isolation: HTTP/1.0 302 without Location; only top-level vodUrl points to /portal.svg",
+        "endpoint": "/bussola/redirect",
+        "provenance": "JSON key isolation from CASE-18",
+        "http_version": "HTTP/1.0",
+        "server_header": "gvt-probe",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*",
+            "Connection": "close"
+        },
+        "bussola_body": json.dumps({"status": "ok", "code": 0, "vodUrl": "/portal.svg"}, indent=2),
+        "expected_marker": "/portal.svg"
+    },
+    {
+        "case_id": "CASE-24-LIVE-PORTAL-INJECTION",
+        "description": "Full foreground portal injection: 302 to /portal.svg with historical JSON + full appConfigFit.json",
+        "endpoint": "/bussola/redirect",
+        "provenance": "Foreground portal UI injection milestone",
+        "bussola_status": 302,
+        "bussola_headers": {
+            "Content-Type": "application/json; charset=utf-8",
+            "Location": "/portal.svg",
+            "Access-Control-Allow-Origin": "*",
+            "Connection": "close"
+        },
+        "bussola_body": json.dumps({
+            "status": "ok", "code": 0, "url": "/portal.svg",
+            "redirect": "/portal.svg", "redirectUrl": "/portal.svg",
+            "portalUrl": "/portal.svg", "vodUrl": "/portal.svg",
+            "target": "/portal.svg", "location": "/portal.svg",
+            "destination": "/portal.svg",
+            "result": {"url": "/portal.svg", "status": "ok"},
+            "data": {"url": "/portal.svg"}
+        }, indent=2),
+        "appconfig_status": 200,
+        "appconfig_headers": {"Content-Type": "application/json; charset=utf-8"},
+        "appconfig_body": json.dumps({
+            "status": "ok",
+            "code": 0,
+            "result": True,
+            "portalUrl": "http://191.32.31.251/portal.svg",
+            "portal_url": "http://191.32.31.251/portal.svg",
+            "portal": "http://191.32.31.251/portal.svg",
+            "portalSvg": "http://191.32.31.251/portal.svg",
+            "startUrl": "http://191.32.31.251/portal.svg",
+            "start_url": "http://191.32.31.251/portal.svg",
+            "mainUrl": "http://191.32.31.251/portal.svg",
+            "homeUrl": "http://191.32.31.251/portal.svg",
+            "url": "http://191.32.31.251/portal.svg",
+            "epgUrl": "http://191.32.31.251/portal.svg",
+            "vodUrl": "http://191.32.31.251/portal.svg",
+            "logUrl": "http://191.32.31.251/report/stb_log",
+            "version": "1.320.1.0.5"
+        }, indent=2),
+        "expected_marker": "/portal.svg"
+    }
+]
+
+def activate_case_on_harness(case_data):
+    req = urllib.request.Request(HARNESS_URL, data=json.dumps(case_data).encode("utf-8"), method="POST")
+    req.add_header("Content-Type", "application/json")
+    try:
+        with urllib.request.urlopen(req, timeout=3) as resp:
+            return resp.status == 200
+    except Exception as e:
+        print(f"[-] Failed to set case on harness: {e}")
+        return False
+
+def restore_baseline():
+    return activate_case_on_harness(CASES[0])
+
+def get_log_offset():
+    if not os.path.exists(JSONL_LOG):
+        return 0
+    return os.path.getsize(JSONL_LOG)
+
+def read_new_transactions(offset):
+    if not os.path.exists(JSONL_LOG):
+        return [], 0
+    records = []
+    with open(JSONL_LOG, "r", encoding="utf-8") as f:
+        f.seek(offset)
+        for line in f:
+            line = line.strip()
+            if line:
+                try:
+                    records.append(json.loads(line))
+                except Exception:
+                    pass
+        new_offset = f.tell()
+    return records, new_offset
+
+def evaluate_case(case_data, wait_timeout=60, observe_timeout=30, prompt=None):
+    case_data = dict(case_data)
+    case_id = case_data["case_id"]
+    run_id = f"{case_id}-{time.time_ns()}"
+    case_data["run_id"] = run_id
+    endpoint = case_data["endpoint"]
+    expected_marker = case_data.get("expected_marker")
+    
+    # Calculate expected response body SHA-256
+    if endpoint == "/bussola/redirect":
+        exp_body_str = case_data.get("bussola_body", "")
+    else:
+        exp_body_str = case_data.get("appconfig_body", "")
+    expected_resp_sha256 = hashlib.sha256(exp_body_str.encode("utf-8")).hexdigest()
+
+    target_host = "191.32.31.251"
+    target_method = "GET"
+    target_path_prefix = endpoint.split("?")[0]
+
+    print(f"\n{'='*70}")
+    print(f" EXECUTING CASE: {case_id}")
+    print(f" Target Endpoint: {target_method} {target_host}{target_path_prefix}")
+    print(f" Expected SHA256: {expected_resp_sha256[:16]}...")
+    print(f" Provenance:      {case_data['provenance']}")
+    print(f" Description:     {case_data['description']}")
+    if expected_marker:
+        print(f" Expected Marker: {expected_marker}")
+    print(f"{'='*70}")
+
+    offset = get_log_offset()
+    if not activate_case_on_harness(case_data):
+        return {
+            "case_id": case_id,
+            "run_id": run_id,
+            "endpoint": endpoint,
+            "provenance": case_data["provenance"],
+            "delivered": False,
+            "marker_expected": expected_marker,
+            "marker_hit": False,
+            "marker_type": None,
+            "script_executed": False,
+            "verdict": "ERROR",
+            "status": "ERROR_HARNESS_UNREACHABLE",
+            "tx_details": None,
+        }
+
+    if prompt:
+        print(f"READY FOR {case_id} (run_id={run_id})")
+        input(f"{prompt}\nPress Enter only after completing that action: ")
+
+    # Phase 1: WAITING_FOR_REQUEST (up to wait_timeout seconds)
+    print(f"[*] State: WAITING_FOR_REQUEST (up to {wait_timeout}s)...")
+    wait_start = time.time()
+    response_delivered = False
+    delivered_tx = None
+
+    unprocessed_txs = []
+    while time.time() - wait_start < wait_timeout:
+        txs, offset = read_new_transactions(offset)
+        for i, tx in enumerate(txs):
+            if tx.get("source") != "RECEIVER_HW":
+                continue
+            
+            # Require exact target Host + method + path prefix
+            tx_path = urllib.parse.urlsplit(tx.get("path", "")).path
+            if (tx.get("method") == target_method and 
+                tx.get("host") == target_host and 
+                tx_path == target_path_prefix):
+                
+                # Require matching case_id and expected response body SHA-256
+                tx_case = tx.get("case_id")
+                tx_sha = tx.get("response_body_sha256")
+                
+                if (tx_case == case_id and tx.get("run_id") == run_id and
+                        tx_sha == expected_resp_sha256):
+                    response_delivered = True
+                    delivered_tx = tx
+                    unprocessed_txs = txs[i+1:]
+                    print(f"\n  [+] MATCHING REQUEST DELIVERED from {tx.get('client')}:")
+                    print(f"      Path:        {tx.get('path')}")
+                    print(f"      Status:      HTTP {tx.get('response_status')}")
+                    print(f"      Case ID:     {tx_case}")
+                    print(f"      Run ID:      {run_id}")
+                    print(f"      Timestamp:   {tx.get('timestamp')}")
+                    print(f"      Body SHA256: {tx_sha} (MATCHED)")
+                    break
+                else:
+                    print(f"  [-] Receiver request matched path but case/SHA mismatch: case={tx_case}, sha={tx_sha}")
+
+        if response_delivered:
+            break
+        time.sleep(0.5)
+
+    if not response_delivered:
+        print(f"[-] WAITING_FOR_REQUEST timed out ({wait_timeout}s). No matching request received.")
+        return {
+            "case_id": case_id,
+            "run_id": run_id,
+            "endpoint": endpoint,
+            "provenance": case_data["provenance"],
+            "delivered": False,
+            "marker_expected": expected_marker,
+            "marker_hit": False,
+            "marker_type": None,
+            "script_executed": False,
+            "verdict": "UNTESTED",
+            "tx_details": None
+        }
+
+    # Phase 2: OBSERVING_AFTER_RESPONSE (allow full observe_timeout seconds)
+    print(f"\n[*] State: OBSERVING_AFTER_RESPONSE. Allowing full {observe_timeout}s for downstream behavior...")
+    obs_start = time.time()
+    marker_hit = False
+    marker_type = None
+    subresource_hit = False
+    subresource_tx = None
+    script_executed = False
+    script_tx = None
+    marker_tx = None
+
+    is_302_case = (case_data.get("bussola_status") == 302 or "302" in case_id or case_id.endswith("-302") or "-PORTAL" in case_id)
+
+    pending_txs = list(unprocessed_txs)
+    while time.time() - obs_start < observe_timeout:
+        if pending_txs:
+            txs = pending_txs
+            pending_txs = []
+        else:
+            txs, offset = read_new_transactions(offset)
+
+        for tx in txs:
+            if tx.get("source") != "RECEIVER_HW":
+                continue
+
+            path = urllib.parse.urlsplit(tx.get("path", "")).path
+            # Attribute marker to correct case
+            if (expected_marker and path == expected_marker and
+                    tx.get("case_id") == case_id and tx.get("run_id") == run_id):
+                marker_hit = True
+                marker_tx = tx
+                marker_type = "HTTP_302" if is_302_case else "JSON_FIELD"
+                print(f"  [*** EVIDENCE HIT ***] Marker {expected_marker} ({marker_type}) fetched by RECEIVER_HW from {tx.get('client')}!")
+                print(f"      Timestamp: {tx.get('timestamp')} | Run ID: {run_id}")
+
+            if (path == "/marker/probe_subresource.png" and tx.get("case_id") == case_id and
+                    tx.get("run_id") == run_id):
+                subresource_hit = True
+                subresource_tx = tx
+                print(f"  [*** CRITICAL HIT ***] SVG Sub-resource probe fetched by RECEIVER_HW from {tx.get('client')}!")
+                print(f"      Timestamp: {tx.get('timestamp')} | Run ID: {run_id}")
+
+            if (path == "/report/script_exec" and tx.get("case_id") == case_id and
+                    tx.get("run_id") == run_id):
+                script_executed = True
+                script_tx = tx
+                print(f"  [*** CRITICAL HIT ***] Script callback executed by RECEIVER_HW from {tx.get('client')}!")
+                print(f"      Timestamp: {tx.get('timestamp')} | Run ID: {run_id}")
+
+        time.sleep(0.5)
+
+    # Determine verdict using strict evidence classification wording
+    if script_executed:
+        verdict = "SCRIPT_EXECUTION_DEMONSTRATED"
+    elif subresource_hit:
+        verdict = "SVG_RENDER_SUBRESOURCE_FETCHED"
+    elif marker_hit:
+        verdict = "302 delivered; marker fetched" if is_302_case else "JSON delivered; marker fetched"
+    elif expected_marker is None:
+        verdict = "DELIVERED"
+    else:
+        verdict = "302 delivered; no marker request observed" if is_302_case else "JSON delivered; no marker request observed"
+
+    print(f"[*] Evaluation completed: Verdict = {verdict}")
+
+    result = {
+        "case_id": case_id,
+        "run_id": run_id,
+        "endpoint": endpoint,
+        "provenance": case_data["provenance"],
+        "delivered": True,
+        "marker_expected": expected_marker,
+        "marker_hit": marker_hit,
+        "marker_type": marker_type,
+        "subresource_hit": subresource_hit,
+        "script_executed": script_executed,
+        "verdict": verdict,
+        "tx_details": delivered_tx,
+        "marker_details": marker_tx,
+        "subresource_details": subresource_tx,
+        "script_details": script_tx
+    }
+    return result
+
+def main():
+    try:
+        if len(sys.argv) > 1 and sys.argv[1] == "--single":
+            if len(sys.argv) < 3:
+                print("--single requires CASE_ID", file=sys.stderr)
+                sys.exit(2)
+            cid = sys.argv[2]
+            matching = [c for c in CASES if c["case_id"] == cid]
+            if not matching:
+                print(f"Case {cid} not found.")
+                sys.exit(1)
+            wait_t = int(sys.argv[3]) if len(sys.argv) > 3 else 60
+            obs_t = int(sys.argv[4]) if len(sys.argv) > 4 else 30
+            res = evaluate_case(matching[0], wait_timeout=wait_t, observe_timeout=obs_t)
+            print("\n" + "=" * 70)
+            print("SINGLE CASE RESULT:")
+            print(json.dumps(res, indent=2))
+            return
+
+        if len(sys.argv) > 1 and sys.argv[1] == "--reduction-battery":
+            c16 = [c for c in CASES if c["case_id"] == "CASE-16-302-EMPTY-BODY"][0]
+            c17 = [c for c in CASES if c["case_id"] == "CASE-17-PORTAL-RENDER-PROBE"][0]
+            sequence = [
+                (c16, "Open Vivo Play once to test CASE-16-302-EMPTY-BODY."),
+                (c17, "Close and reopen Vivo Play to test CASE-17-PORTAL-RENDER-PROBE."),
+            ]
+            print("MERO-STB-LAB: REDUCTION & CAPABILITY BATTERY (CASE-16, CASE-17)")
+        elif len(sys.argv) > 1 and sys.argv[1] in ("--historical-case-15", "--case-15"):
+            c15 = [c for c in CASES if c["case_id"] == "CASE-15-EXACT-HISTORICAL-D085"][0]
+            sequence = [
+                (c15, "Trigger /bussola/redirect by opening Vivo Play once."),
+            ]
+            print("MERO-STB-LAB: EXACT HISTORICAL REPLAY (CASE-15-EXACT-HISTORICAL-D085)")
+        elif len(sys.argv) > 1 and sys.argv[1] == "--sequence-reduction-core":
+            wanted = [
+                "CASE-15-EXACT-HISTORICAL-D085",
+                "CASE-16-HISTORICAL-HTTP11",
+                "CASE-17-HISTORICAL-SERVER-GENERIC",
+                "CASE-18-HISTORICAL-NO-LOCATION",
+                "CASE-19-302-LOCATION-MINIMAL-BODY",
+            ]
+            selected = {c["case_id"]: c for c in CASES}
+            sequence = [
+                (selected[cid], "Close/reopen Vivo Play and trigger /bussola/redirect once.")
+                for cid in wanted
+            ]
+            print("MERO-STB-LAB: SYSTEMATIC POSITIVE REDUCTION (CASES 15-19)")
+        elif len(sys.argv) > 1 and sys.argv[1] == "--sequence-json-keys":
+            wanted = [
+                "CASE-20-JSON-URL-ONLY",
+                "CASE-21-JSON-PORTALURL-ONLY",
+                "CASE-22-JSON-REDIRECTURL-ONLY",
+                "CASE-23-JSON-VODURL-ONLY",
+            ]
+            selected = {c["case_id"]: c for c in CASES}
+            sequence = [
+                (selected[cid], "Close/reopen Vivo Play and trigger /bussola/redirect once.")
+                for cid in wanted
+            ]
+            print("MERO-STB-LAB: JSON NAVIGATION-KEY ISOLATION (CASES 20-23)")
+        elif len(sys.argv) > 1 and sys.argv[1] == "--sequence-redirect-test":
+            c12 = [c for c in CASES if c["case_id"] == "CASE-12-HISTORICAL-PORTAL"][0]
+            c13 = [c for c in CASES if c["case_id"] == "CASE-13-302-RELATIVE"][0]
+            c14 = [c for c in CASES if c["case_id"] == "CASE-14-302-ABSOLUTE"][0]
+            sequence = [
+                (c12, "Trigger /bussola/redirect by opening Vivo Play."),
+                (c13, "Close and reopen Vivo Play."),
+                (c14, "Close and reopen Vivo Play."),
+            ]
+            print("MERO-STB-LAB: REDIRECT INVESTIGATION SEQUENCE (CASE-12, CASE-13, CASE-14)")
+        elif len(sys.argv) > 1 and sys.argv[1] == "--interactive-three":
+            sequence = [
+                (CASES[0], "Open Vivo Play once."),
+                (CASES[9], "Close and reopen Vivo Play."),
+                (CASES[1], "Close and reopen Vivo Play."),
+            ]
+        elif len(sys.argv) > 1 and sys.argv[1] in ("--live-portal", "--portal-session"):
+            c24 = [c for c in CASES if c["case_id"] == "CASE-24-LIVE-PORTAL-INJECTION"][0]
+            sequence = [
+                (c24, "Open Vivo Play or test network connection on STB remote."),
+            ]
+            print("MERO-STB-LAB: FOREGROUND PORTAL INJECTION (CASE-24-LIVE-PORTAL-INJECTION)")
+        else:
+            print("Usage: run_differential_campaign.py [--live-portal | --historical-case-15 | --sequence-reduction-core | --sequence-json-keys | --sequence-redirect-test | --interactive-three | --single CASE_ID [WAIT [OBSERVE]]]", file=sys.stderr)
+            sys.exit(2)
+
+        results = []
+        for case_data, prompt in sequence:
+            if not restore_baseline():
+                print("[-] Could not restore baseline; stopping.", file=sys.stderr)
+                break
+            result = evaluate_case(case_data, wait_timeout=60, observe_timeout=30, prompt=prompt)
+            results.append(result)
+            if result["verdict"] in ("UNTESTED", "ERROR"):
+                print("[!] Sequence stopped; no later case was activated.")
+                break
+
+        print("\n" + "=" * 70)
+        print("             INTERACTIVE SESSION RESULTS SUMMARY              ")
+        print("=" * 70)
+        print(f"{'Case ID':<26} | {'Provenance':<30} | {'Marker Hit':<10} | {'Verdict'}")
+        print("-" * 90)
+        for r in results:
+            print(f"{r['case_id']:<26} | {r['provenance'][:30]:<30} | {str(r['marker_hit']):<10} | {r['verdict']}")
+
+        with open(EVIDENCE_TABLE, "w", encoding="utf-8") as f:
+            json.dump(results, f, indent=2)
+        print(f"\n[+] Results written to {EVIDENCE_TABLE}")
+
+    finally:
+        print("\n[*] Restoring harness to CASE-00-BASELINE...")
+        restore_baseline()
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,6 @@
+{
+  "version": "media-control-020-same-origin-v6",
+  "module": "/media-control-020.js",
+  "cleanup": true,
+  "poll_ms": 2000
+}

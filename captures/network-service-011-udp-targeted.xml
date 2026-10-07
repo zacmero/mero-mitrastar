@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.991 scan initiated Sat Sep 19 01:20:49 2026 as: nmap -Pn -n -e enp5s0 -sU -sV -&#45;version-all -p 53,67,68,69,123,137,138,161,162,500,514,520,623,1900,4500,5353,5683 -T3 -&#45;max-retries 1 -&#45;host-timeout 5m -&#45;script=dns-service-discovery,ntp-info,snmp-info,upnp-info,tftp-enum -oA captures/network-service-011-udp-targeted 192.168.1.57 -->
+<nmaprun scanner="nmap" args="nmap -Pn -n -e enp5s0 -sU -sV -&#45;version-all -p 53,67,68,69,123,137,138,161,162,500,514,520,623,1900,4500,5353,5683 -T3 -&#45;max-retries 1 -&#45;host-timeout 5m -&#45;script=dns-service-discovery,ntp-info,snmp-info,upnp-info,tftp-enum -oA captures/network-service-011-udp-targeted 192.168.1.57" start="1789791649" startstr="Sat Sep 19 01:20:49 2026" version="7.991" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="17" services="53,67-69,123,137-138,161-162,500,514,520,623,1900,4500,5353,5683"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.57" addrtype="ipv4"/>
+<address addr="68:15:90:6B:81:96" addrtype="mac" vendor="Sagemcom Broadband SAS"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<taskprogress task="Service scan" time="1789791798" percent="0.00"/>
+<host starttime="1789791649" endtime="1789791953" timedout="true"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.57" addrtype="ipv4"/>
+<address addr="68:15:90:6B:81:96" addrtype="mac" vendor="Sagemcom Broadband SAS"/>
+<hostnames>
+</hostnames>
+<times srtt="4213" rttvar="5000" to="100000"/>
+</host>
+<runstats><finished time="1789791953" timestr="Sat Sep 19 01:25:53 2026" summary="Nmap done at Sat Sep 19 01:25:53 2026; 1 IP address (1 host up) scanned in 304.46 seconds" elapsed="304.46" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

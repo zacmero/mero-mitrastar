@@ -1,0 +1,28 @@
+
+======================================================================
+TIMESTAMP:    2026-09-24T14:46:01.801868Z [HTTP] [LOCAL_SELFTEST] Case: CASE-24-LIVE-PORTAL-INJECTION
+CLIENT:       127.0.0.1:36800 (Host: 127.0.0.1)
+REQUEST:      GET /launch.svg
+RESPONSE:     HTTP/1.1 302 (0 B, SHA256: e3b0c44298fc1c14...)
+======================================================================
+
+======================================================================
+TIMESTAMP:    2026-09-24T14:46:01.807611Z [HTTP] [LOCAL_SELFTEST] Case: CASE-24-LIVE-PORTAL-INJECTION
+CLIENT:       127.0.0.1:36806 (Host: 127.0.0.1)
+REQUEST:      GET /app-hub.svg
+RESPONSE:     HTTP/1.1 200 (4355 B, SHA256: d366d9dd3cc2b0a5...)
+======================================================================
+
+======================================================================
+TIMESTAMP:    2026-09-24T14:46:01.813636Z [HTTP] [LOCAL_SELFTEST] Case: CASE-24-LIVE-PORTAL-INJECTION
+CLIENT:       127.0.0.1:36814 (Host: 127.0.0.1)
+REQUEST:      GET /app-hub-manifest.json
+RESPONSE:     HTTP/1.1 200 (124 B, SHA256: 34dd019510b097f0...)
+======================================================================
+
+======================================================================
+TIMESTAMP:    2026-09-24T14:46:01.820210Z [HTTP] [LOCAL_SELFTEST] Case: CASE-24-LIVE-PORTAL-INJECTION
+CLIENT:       127.0.0.1:36826 (Host: 127.0.0.1)
+REQUEST:      GET /media-control-020.js
+RESPONSE:     HTTP/1.1 200 (1579 B, SHA256: 53123306cb6a0e2c...)
+======================================================================

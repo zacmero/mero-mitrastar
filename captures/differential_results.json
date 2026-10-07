@@ -1,0 +1,47 @@
+[
+  {
+    "case_id": "CASE-15-EXACT-HISTORICAL-D085",
+    "run_id": "CASE-15-EXACT-HISTORICAL-D085-1789777750716146812",
+    "endpoint": "/bussola/redirect",
+    "provenance": "Commit d08504f exact replay",
+    "delivered": true,
+    "marker_expected": "/portal.svg",
+    "marker_hit": false,
+    "marker_type": null,
+    "script_executed": false,
+    "verdict": "302 delivered; no marker request observed",
+    "tx_details": {
+      "timestamp": "2026-09-19T00:29:49.798672Z",
+      "source": "RECEIVER_HW",
+      "case_id": "CASE-15-EXACT-HISTORICAL-D085",
+      "run_id": "CASE-15-EXACT-HISTORICAL-D085-1789777750716146812",
+      "client": "192.168.1.54:51348",
+      "method": "GET",
+      "host": "191.32.31.251",
+      "path": "/bussola/redirect?type=vod&user=035289282213&product=DSI74%20V2%20HD%20GVT&fw=RC1.12.12&sw=1.0.5",
+      "headers": {
+        "User-Agent": "Ekioh v2.2.4.5-sagem (Mar  2 2013) r10767",
+        "Host": "191.32.31.251",
+        "Connection": "Keep-Alive",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept": "application/json, text/plain, */*"
+      },
+      "request_body_size": 0,
+      "request_body_sha256": null,
+      "request_body_snippet": "",
+      "response_http_version": "HTTP/1.0",
+      "response_status": 302,
+      "response_headers": {
+        "Server": "gvt-probe",
+        "Content-Length": "369",
+        "Content-Type": "application/json; charset=utf-8",
+        "Location": "/portal.svg",
+        "Access-Control-Allow-Origin": "*",
+        "Connection": "close"
+      },
+      "response_body_size": 369,
+      "response_body_sha256": "ed854de506008965c8a569d6060b4c744597278544a2d3ad66ddfc7465c83e3b"
+    },
+    "marker_details": null
+  }
+]

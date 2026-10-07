@@ -1,0 +1,198 @@
+# FW-UPDATE-013: Firmware and Update-Service Discovery
+
+## Status
+
+**IN PROGRESS — network relay capture aborted; offline discovery continues.**
+
+No firmware manifest, package, installation path, signature policy, or rollback behavior has been identified.
+
+## Existing receiver evidence
+
+Committed captures contain receiver requests for configuration, highlights, portal redirect, and application assets. They contain no observed firmware manifest, package URL, or update request.
+
+The receiver exposes these version strings:
+
+- request firmware: `RC1.12.12`
+- request software: `1.0.5`
+- configuration version: `1.320.1.0.5`
+- on-device firmware information screen: `RC1.12.12`
+- on-device firmware build timestamp: `Sep 12 2018 - 17:42:30`
+- on-device hardware model: `NSST44GV03.01`
+- on-device model description: `DSI74 V2 HD GVT (ZAPPER)`
+- on-device version: `1.322.20180523`
+- on-device audio format: `MPEG-2`
+
+These strings identify installed components. They do not identify an update package or prove that the receiver supports network updates.
+
+The information screen also displayed a unique conditional-access identifier
+and receiver serial number. Those values were verified during the session but
+are intentionally excluded from the public repository. The full identifiers
+are not required for firmware-family research and may be subscriber/device
+credentials.
+
+Exact public searches for `NSST44GV03.01`, `1.322.20180523`, and `RC1.12.12`
+returned no indexed firmware, source tree, manual, or archive item. This is a
+negative search result, not evidence that no package exists.
+
+## Aborted pass-through capture
+
+At approximately 2026-09-19 19:32:04 -03:00, an experimental pass-through mode started an exact receiver↔gateway ARP relay and MAC-filtered packet capture. It did not redirect HTTP or HTTPS and did not serve any response.
+
+Observed impact:
+
+- the workstation's living-room SSH connection dropped briefly;
+- another television on the LAN briefly disconnected;
+- the test receiver made unanswered TCP SYN attempts to `191.32.31.251:80`, `191.32.31.251:443`, and `186.215.183.217:80`;
+- the workstation NIC retained carrier; kernel logs show only entry to and exit from promiscuous mode.
+
+The session was terminated at approximately 2026-09-19 19:36:38 -03:00. Cleanup verification established:
+
+- no experiment runner, ARP redirector, interceptor, or packet capture process remained;
+- zero `MNC005` firewall rules remained;
+- `net.ipv4.conf.all.send_redirects = 1`;
+- `net.ipv4.conf.enp5s0.send_redirects = 1`;
+- gateway ping returned 4/4 replies at approximately 0.5 ms;
+- DNS resolved `example.com`;
+- HTTPS returned status 200.
+
+The partial artifact remains at `captures/fw-update-013.pcap`. It contains no completed external TCP handshake and therefore no HTTP request, TLS ClientHello, update path, or package metadata.
+
+### Interpretation
+
+The host NIC did not disconnect. Because the SSH session and another television were both affected, router or switch reaction to ARP manipulation is the leading hypothesis. The available evidence does not identify the router's exact internal mechanism.
+
+### Permanent correction
+
+The uncommitted pass-through mode was removed. Do not use ARP relay capture for FW-UPDATE-013 again. The existing application interception harness was not changed by this aborted design.
+
+## Offline service discovery
+
+The observed hostname remains active:
+
+```text
+ucstb.vivoplay.com.br
+  CNAME ucstb.br.gvp.telefonica.com
+  A     213.140.61.225
+```
+
+The live HTTPS endpoint presents a valid `*.vivoplay.com.br` certificate and returns nginx HTTP 404 at `/`. Port 80 refused the tested connection. The exact previously observed `/tv-config/appConfigFit.json` path also returned 404 on the current hostname.
+
+RDAP and reverse DNS attribute both historical IP ranges to Telefônica Brasil:
+
+- `191.32.31.251.static.adsl.gvt.net.br`
+- `186.215.183.217.static.host.gvt.net.br`
+
+The Internet Archive index contains 413 successful archived URLs for `ucstb.vivoplay.com.br`. Filtering their paths for update-related terms found only `/service3.0/ConfigurationService.svc/GetInstanceSettings`. One archived response returned `StatusCode: 3`, `Content: null`, and no update URL. Archived authentication/configuration calls prove the host served Vivo Play APIs, not that it served receiver firmware.
+
+## SoC security lead
+
+The public repository `trojkowy/Glitching-STIH237-SOCs` is the only GitHub repository found by the `STiH237` identifier. Its author reports sentinel-guarded JTAG access, randomized clocks, encrypted secure boot with repeated signature verification, external-clock checks, and RAM scrambling.
+
+That repository does not demonstrate a successful bypass. Its script requires ChipWhisperer and FT4232H-class hardware and invokes an STiH205/207 target pack. Treat its security description as an external report about the SoC family, not verified evidence for this DSI74 board or firmware.
+
+## Public SH4 image-build evidence
+
+The public `liqinhuicn/openvision-development-platform` tree provides useful
+architecture references, but no image for this exact receiver has been found.
+
+Its Forever definitions establish these properties for their STiH205/Cardiff
+targets:
+
+- SuperH-4 Linux using the `2.6.32.71-stmicro-4g` kernel source line;
+- STMicro multimedia and FDMA firmware;
+- a bootable `uImage` kernel plus `root.img` NAND root filesystem;
+- UBI/UBIFS packaging with 128-KiB-class eraseblocks;
+- kernel on `mtd1`, root filesystem on `mtd2` for `forever_nanosmart`;
+- U-Boot environment stored within `mtd0` for that target;
+- `ubi.mtd=2`, `root=ubi0:rootfs`, and `rootfstype=ubifs` boot arguments.
+
+These are strong references for how Cardiff-family SH4 receivers can be
+assembled. They are **not** a DSI74 partition map, boot sequence, signing
+policy, or compatible firmware image.
+
+The tree also contains `sagemcom88`, but its board patch explicitly selects
+**STx7105**, not STiH205. Its NOR/JFFS2 layout must not be transferred to the
+DSI74 merely because both carry the Sagemcom name.
+
+The downloadable `OpenVisionE2/linux-firmwares` SH4 archive was checked
+offline:
+
+```text
+sha256  869b07c99b77a54449ed766bdcd6ea219d1860129fe801f2d92d5d515bff69f1
+size    306165 bytes
+format  ZIP
+```
+
+It contains peripheral firmware, not a bootloader, kernel, root filesystem or
+complete receiver upgrade. It is useful for ecosystem identification only.
+
+An authentic non-GVT Cardiff image could reveal kernel configuration,
+filesystem organization, init/service conventions and browser integration.
+It remains an **offline analysis specimen** and must not be flashed until the
+DSI74's exact SoC, flash geometry, partition map, recovery path and signature
+rules are independently verified.
+
+The workstation exposes only one active Ethernet interface. A transparent two-port capture bridge is therefore not currently available without adding or reconfiguring network hardware. No bridge configuration was attempted.
+
+## Isolated direct-Ethernet capture
+
+On 2026-09-19, the receiver was connected directly to a separate Ubuntu lab
+laptop. The laptop retained its control connection through Wi-Fi and dedicated
+`enp6s0` exclusively to the receiver. The runner disabled IPv4 forwarding and
+used no NAT, ARP spoofing, or firewall rules.
+
+The verified receiver MAC obtained `10.74.0.10` from the exact-MAC DHCP lease.
+Its DHCP vendor class was `udhcp 1.20.2`. Boot and one Vivo Play launch produced:
+
+- DNS `A` query for `ucstb.vivoplay.com.br`;
+- HTTPS connection attempts to the locally resolved address and
+  `191.32.31.251:443`;
+- `GET /mirada1-destaques/highlights_config.xml?...` with Host
+  `186.215.183.217` and User-Agent `Ekioh v2.2.4.5-sagem (Mar 2 2013) r10767`;
+- `HEAD /` with Host `191.32.31.251`;
+- `GET /tv-config/appConfigFit.json`;
+- `GET /bussola/redirect?type=vod&...`;
+- ICMP connectivity probes to `8.8.8.8`, then the supplied gateway.
+
+The observation responder returned HTTP 404. Vivo Play returned cleanly to the
+normal no-service television screen. No firmware manifest, package request, or
+update path appeared in this boot-plus-Vivo-Play sequence.
+
+A corrected baseline-response run returned HTTP 200 for known boot resources.
+It revealed an additional zero-body request:
+
+```http
+POST /tv-config/backupIpConfig.json HTTP/1.1
+User-Agent: curl/7.32.0
+Host: 191.32.31.251
+Content-Type: application/json
+Accept: application/json
+```
+
+The runner returned the verified minimal acknowledgement
+`{"status":"ok","code":0,"ack":true}`. No new destination or update request
+followed. An earlier baseline attempt accidentally returned a repository test
+fixture containing `192.168.1.97:8080`; all downstream behavior from that
+response is excluded. Forwarding was disabled, so that stale address was not
+reachable through the lab laptop.
+
+The next run passed only the DNS-resolved boot-time TLS connection through to
+the authentic `ucstb.vivoplay.com.br` service. Certificate verification
+succeeded end-to-end. The receiver sent 1,235 encrypted bytes and received
+4,536 encrypted bytes; the connection closed normally after 950 ms. No package
+download, new destination, or firmware request followed. A later Vivo Play
+launch did not create another TLS session and used only the known HTTP
+`/bussola/redirect` and `/tv-config/appConfigFit.json` paths.
+
+The reproducible setup and analysis commands are documented separately in
+[`docs/tooling/isolated-ethernet-lab.md`](../tooling/isolated-ethernet-lab.md).
+
+## Safe continuation
+
+Continue without LAN interception:
+
+1. Search public archives, vendor material, and existing local artifacts for this exact model and version strings.
+2. Analyze any obtained package offline with hashes, file-type detection, entropy, strings, archive extraction, filesystem identification, and signature metadata.
+3. Extract init scripts, service definitions, Ekioh configuration, USB/update handlers, trust anchors, and maintenance listeners from an authentic image.
+4. Resume USB work later with OS-level detection, updater UI behavior, media import, and USB HID. Do not infer those results from USB-CAP-012.
+5. Do not offer any image to the receiver until package authenticity, model match, signature enforcement, rollback behavior, and recovery path are understood.

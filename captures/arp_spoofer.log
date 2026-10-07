@@ -1,0 +1,4 @@
+[*] Native ARP redirector active on enp5s0
+[*] Targets: 192.168.1.138,192.168.1.137,192.168.1.134 (68:15:90:6b:81:96) <-> 192.168.1.1 (14:ca:56:81:18:71) via fc:aa:14:f5:c6:a2
+[*] Restoring authentic ARP tables...
+[*] ARP tables restored cleanly.
