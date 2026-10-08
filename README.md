@@ -62,6 +62,9 @@ ports 21, 22, 23, and 443 remain filtered.
 at `/padrao`, authenticates administrative user `support`, exports the router configuration
 `romfile.cfg`, and confirms through the internal ACL that Telnet, SSH, FTP, and SNMP daemons
 exist in firmware but have their listening interfaces explicitly set to `Disable`.
+The [romfile reverse engineering analysis](research/romfile-analysis.md) documents the XML structure,
+ACL unlocking, `<Autoexec>` boot injection vectors, and the pristine backup recovery procedure.
+
 
 
 ## Working layout
