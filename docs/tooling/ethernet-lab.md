@@ -204,3 +204,7 @@ rtk proxy ip -6 route
 Check the control-peer route and confirm the SSH session still works. Leave
 pre-existing settings in place. The procedure creates no bridge/NAT/DHCP/DNS
 service and requires no router configuration changes.
+
+## Router SSH from the laptop
+
+Native LAN SSH is enabled for `192.168.15.3`. Use the pinned-host connection command and read-only vendor-console examples in [MITRA-SSH-015](../experiments/mitra-ssh-015.md#owner-connection-from-the-laptop). Login is `support`, with the owner-provided label password. This reaches the vendor console; Linux shell access is unproven.

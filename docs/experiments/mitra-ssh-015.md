@@ -139,3 +139,33 @@ Linux shell privileges. The network route subcommand is a further inventory
 lead; its usage and permitted operations still need inspection. No SSH
 session was left running. Restricted LAN SSH remains enabled as authorized;
 HTTP management and the laptop control connection continued working.
+
+## Owner connection from the laptop
+
+Run this on `cris-MS-1454` while its Ethernet address is `192.168.15.3`:
+
+```bash
+ssh -o HostKeyAlgorithms=+ssh-rsa \
+  -o UserKnownHostsFile="$HOME/.local/state/mero-mitrastar/known_hosts" \
+  -o StrictHostKeyChecking=yes support@192.168.15.1
+```
+
+The laptop does not currently have `rtk` installed, so this is a direct SSH
+command. The dedicated known-hosts file was created during the verified
+connection. Do not disable host-key checking if it reports a changed key.
+Use the router's owner-provided label password when prompted; it is not
+stored in tracked documentation. Successful login presents the vendor `>`
+prompt. Initial informational commands are:
+
+```text
+?
+sys ?
+sys swversion
+sys uptime
+net ?
+exit
+```
+
+`id`, `uname`, and other Linux commands are not established as supported here.
+The client restriction is configured for this laptop's current Ethernet IP;
+recheck that address if reconnecting later.

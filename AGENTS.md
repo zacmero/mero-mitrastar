@@ -39,8 +39,12 @@ rtk ssh -F /home/zacmero/projects/content-factory-stack/ops/content-factory-vm.s
   the verified device. Record the scope, timestamp, commands, and outcome.
 - Firmware writes, bootloader/environment writes, factory resets, router policy
   changes, and disruptive tests require an explicit session instruction before
-  execution. The current session authorized documentation, repository hygiene,
-  and bounded read-only laptop SSH/Ethernet connection checks.
+  execution. The owner explicitly authorized native LAN SSH on port 22,
+  restricted to laptop 192.168.15.3, and supplied-credential access checks.
+  MITRA-SSH-015 records the applied policy and vendor console results. This
+  authorization does not cover resets, reboots, other service changes, or flash
+  writes. Documentation, repository hygiene, and bounded read-only inventory
+  remain authorized.
 - Do not guess UART pinouts, voltage levels, flash parts, or cross-compilation
   settings. UART output alone does not establish shell access.
 
