@@ -88,3 +88,5 @@ contain credentials. Store them locally; commit reviewed summaries and hashes.
 The active workspace was reset on 2026-10-07. It contains no inherited firmware,
 device-control scripts, generated probes, or old captures. Those files remain
 in the predecessor commit and the local archive. No Git history was rewritten.
+
+The merged configuration analysis is in [research/romfile-analysis.md](research/romfile-analysis.md). It distinguishes observed ACL entries from unverified daemon and restore behavior.

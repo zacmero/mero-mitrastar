@@ -232,3 +232,10 @@
   included in this documentation publication; the other branch was left intact.
 - Updated handoff and roadmap to the legacy SSH configuration lead. The owner
   requested committing/pushing these reviewed discoveries on the current docs route.
+
+# Branch reconciliation — 2026-10-08
+
+- Merged `romfile-analysis` into `master`, retaining reviewed experiment corrections.
+- Reconciled configuration analysis: daemon presence, boot hooks, parser integrity, console credentials, and restore recovery remain unverified.
+- Removed the raw export from the merged tree; earlier branch history still contains it. Original private evidence remains available locally.
+- Verified laptop `cris-MS-1454`, Ethernet `enp6s0` at `192.168.15.3/24`, route to `192.168.15.1`, and router neighbor `ac:c6:62:8d:99:78` before read-only SSH-page inspection.
