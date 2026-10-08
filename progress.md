@@ -268,3 +268,11 @@
 - Organized all 17 originals under board_pictures/originals, verified unchanged hashes, and generated metadata-stripped JPEG review copies with a manifest/index.
 - Visually identified MT7505N, MT7592N, MT7583N and MXIC 25L12835F markings; checked flash density against the manufacturer datasheet. Documented the populated header as a candidate, not a verified pinout.
 - No device/network test or persistent router change performed.
+
+# Resumed software investigation
+
+Owner requested continued software tests after board identification. Starting with topology, export freshness, and SSH/console implementation evidence. Existing raw evidence and originals remain in ignored local storage; no additional worktree created.
+
+Completed MITRA-SOFTWARE-018: native backup generation at a 20-second bound completed in 14.229 seconds; new 93,434-byte export matches restricted LAN SSH. Authenticated SSH exec of valid vendor command and SFTP subsystem requests were rejected. Interactive console identified `net route disp`; its IPv4 table has no default route. Referenced statusview.cgi labels ETHER WAN Down/N/A. Traffic-status tab candidate returned 404. Uptime is about eight minutes with retained SSH, consistent with an unobserved restart, not a controlled persistence test. Primary searches acquired no exact-build image or telnetd flag semantics. Captures remain private, sessions exited, no settings changed. Documentation and artifact hashes updated in one repo.
+
+Local inspection errors: two stale documentation paths did not exist and were replaced with the actual inventory; a multi-file tail invocation failed and was replaced by direct reads. No router effect. Initial romfile HTTP 404 was resolved by native generation; traffic-status-tab 404 remains a scoped negative result.

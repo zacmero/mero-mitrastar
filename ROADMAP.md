@@ -83,11 +83,7 @@ added these measurements and discoveries:
 - [MITRA-IPV6-013](docs/experiments/mitra-ipv6-013.md) found port 80 open among eight tested link-local IPv6 ports, port 7547 refused, and ports 21, 22, 23, and 443 timed out;
 - [MITRA-BACKUP-014](docs/experiments/mitra-backup-014.md) discovered `/padrao`, authenticated `support`, exported settings, and found SSH/Telnet/FTP/SNMP/HTTPS/TR64 interfaces configured as disabled.
 
-The software route remains open. Prioritize [MITRA-SSH-015](docs/tooling/configuration-and-firmware.md):
-read the legacy SSH management view and prepare a single LAN-only change with
-rollback before any apply. No service change or firmware write has been submitted.
-The settings export is not a firmware backup; running daemons and privileges
-remain unconfirmed. Board photographs can independently document hardware.
+The software route remains open. [MITRA-SSH-015](docs/experiments/mitra-ssh-015.md) enabled restricted LAN SSH after explicit owner authorization and reached the support vendor console. No firmware write has been submitted. The settings export is not a firmware backup; Linux shell privileges remain unconfirmed. Board photographs now independently document hardware.
 Diagnostic baseline completed; see [the result](docs/experiments/mitra-access-003.md).
 Ping and TraceRoute reached loopback; DNS lookup completed with an unresolved
 local name. Frontend validation was inspected without submitting malformed
@@ -171,3 +167,5 @@ MITRA-SSH-015 has now reached the authenticated support vendor console through t
 MITRA-CLI-016 completes an initial read-only console map. Native memory, CPU-load, NAT-usage, LAN, Wi-Fi, and TR-069 queries work. Next is understanding exact-build command handlers, especially the unexplained telnetd flag, while preparing the independent board-photo/UART route. A Linux shell remains the next programming prerequisite.
 
 Board photographs are now archived and reviewed in [MITRA-BOARD-017](docs/experiments/mitra-board-017.md). Next hardware step: unpowered ground continuity, then suitable logic-voltage/activity measurement to identify the candidate serial pins. Maintain the software handler research route. Use only the canonical mero-mitrastar checkout; the temporary docs worktree is removed.
+
+MITRA-SOFTWARE-018 resolves fresh configuration export through the native backup sequence; live/exported SSH policy agrees. Vendor-command exec and SFTP channel requests are rejected. `net route disp` is the read-only IPv4 route command; no default route appears in the snapshot. The referenced status view labels ETHER WAN Down/N/A. Next: remaining referenced read-only status/log views and exact-build firmware/handler evidence.

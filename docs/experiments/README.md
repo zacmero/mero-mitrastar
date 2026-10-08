@@ -45,3 +45,5 @@ Latest record: [MITRA-SSH-015 — native SSH management and vendor console](mitr
 [MITRA-CLI-016 — read-only vendor console inventory](mitra-cli-016.md).
 
 [MITRA-BOARD-017 — board photo archive and visual identification](mitra-board-017.md).
+
+[MITRA-SOFTWARE-018 — fresh backup, SSH channels, and routing](mitra-software-018.md).

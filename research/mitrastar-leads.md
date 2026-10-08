@@ -1,6 +1,6 @@
 # MitraStar DSL-100HN-T1-NV — external research and source index
 
-Last source check: 2026-10-07. This page is designed for terminal access and preserves the distinction between **published results on other units** and **verified evidence from our own router**.
+Last source check: 2026-10-08. This page is designed for terminal access and preserves the distinction between **published results on other units** and **verified evidence from our own router**.
 
 ## Our unit: known baseline (see README and MITRA-NET-001)
 
@@ -59,3 +59,7 @@ An earlier 2026-10-07 version of this file recorded a failed attempt by another 
 ## Update: this board photographed
 
 [MITRA-BOARD-017](../docs/experiments/mitra-board-017.md) now observes MT7505N and MXIC 25L12835F markings directly on this unit. This resolves the earlier lack of package photographs; runtime architecture/kernel/ABI and UART pinout remain unverified. Other-unit chip variants listed above remain external evidence.
+
+## Offline emulation follow-up
+
+[Maycon — Emulando binários dos firmwares (2018-02-19)](https://maycon.hacknroll.io/embedded-hacking/2018/02/19/embedded-hacking-emulando-binarios.html) uses the exact-model SPI dump from his earlier article, extracts SquashFS, and demonstrates QEMU user-mode analysis. This is a useful method once we obtain a verified image; his other-unit binaries do not establish our ABI. The inspected rendered article links do not supply an exact-build image. See MITRA-SOFTWARE-018 for the bounded search scope and remaining handler questions.

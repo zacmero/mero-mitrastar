@@ -103,3 +103,5 @@ Latest software step: [MITRA-SSH-015](docs/experiments/mitra-ssh-015.md) confirm
 Latest console inventory: [MITRA-CLI-016](docs/experiments/mitra-cli-016.md) documents read-only command usage, LAN4 link, br0, memory/CPU/NAT snapshots, and private TR-069/Wi-Fi status captures. Linux shell access remains unproven.
 
 Board archive: [17 photographs and visual findings](board_pictures/README.md). Original HEIC files remain local; metadata-stripped JPEG copies are tracked.
+
+[MITRA-SOFTWARE-018](docs/experiments/mitra-software-018.md) resolves fresh backup generation: wait for generation to finish before downloading; this run took 14.229 seconds. The new export matches restricted LAN SSH. Authenticated vendor-command exec and SFTP requests are rejected. Native `net route disp` works and currently shows no IPv4 default route.

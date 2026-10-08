@@ -84,4 +84,10 @@ a full flash recovery backup.
 
 ## MITRA-SSH-015 result
 
-After explicit owner authorization, native LAN-only SSH with laptop client ranges opened Dropbear 2019.78. The support account reaches an interactive vendor console; remote exec requests are denied. Software version and uptime were queried successfully. Linux shell access, client-filter enforcement, and persistence across reboot remain unverified; downloaded exports still reflect the old ACL. Read [MITRA-SSH-015](../experiments/mitra-ssh-015.md) for the exact observations and remaining gates.
+After explicit owner authorization, native LAN-only SSH with laptop client ranges opened Dropbear 2019.78. The support account reaches an interactive vendor console; remote exec requests are denied. Software version and uptime were queried successfully. Linux shell access, client-filter enforcement, and persistence across reboot remain unverified; exports in that round still reflected the old ACL. Read [MITRA-SSH-015](../experiments/mitra-ssh-015.md) for the exact observations and remaining gates.
+
+## MITRA-SOFTWARE-018 update
+
+Fresh export generation is understood: the native backup JavaScript waits for ConfigFilter.cgi, then downloads `/romfile.cfg`. A bounded 20-second request with the observed XHR headers succeeded in 14.229 seconds. The subsequent fresh export matches LAN / port 22 / client range 192.168.15.3. Previous shorter timeouts did not cover that duration. Reboot persistence is supported by short runtime uptime with SSH retained, but no controlled restart was performed.
+
+Known vendor-command exec and SFTP requests both authenticated and failed at the channel request. The interactive vendor console is still available. These are access distinctions, not proof that SSH or the filesystem lacks any other capability. See [the new record](../experiments/mitra-software-018.md).

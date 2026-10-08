@@ -278,3 +278,13 @@ The authenticated support console maps `sys state` to `sysstate <mem|cpu|nat>`. 
 # MITRA-BOARD-017 — This unit photographed
 
 Reviewed 17 owner photos of both PCB sides. Main package MT7505N; RF-area package MT7592N; companion MT7583N; MXIC flash marking 25L12835F. Manufacturer specification for the matched flash is 128 Mbit / 16 MiB. Five-position header has four pins and remains an unmeasured UART candidate. No electrical test or flash read/write performed. See [board review](docs/experiments/mitra-board-017.md).
+
+# Software follow-up — in progress
+
+Reverified cris-MS-1454/enp6s0 at 192.168.15.3 and router neighbor ac:c6:62:8d:99:78. Live SSH page remains identical to the recorded LAN-enabled page. `/romfile.cfg` currently returns HTTP 404. Native backup JavaScript loads ConfigFilter.cgi before downloading `/romfile.cfg`; no restore or apply action is involved. Exact-model primary-source research has not established the meaning of vendor `sys telnetd -t`; unrelated telnet implementations are not evidence. Maycon’s February 2018 emulation article demonstrates offline analysis of another unit’s extracted filesystem, not this unit’s ABI or shell access.
+
+Native backup generation with the observed jQuery XHR header completed in 14.229 s; the fresh 93,434-byte export has SHA-256 `61767b23a9bf2afc5b639c6612640af3ed65728c02b974d97846fa29b46e38dc`. Its SSH entry now matches LAN/range/192.168.15.3:22. Earlier short timeouts are sufficient to explain failed refresh attempts; header necessity was not isolated. Authenticated SSH exec of valid vendor command `sys swversion` and SFTP subsystem request both failed at channel-request stage, each exit 255. Interactive vendor console remains a separate capability.
+
+Console follow-up returns `net route [disp|add|del]` usage; `disp` is the native display operation and is the next bounded query. IGMP showtable prints column headings without group rows. Runtime uptime is about eight minutes, much shorter than the earlier multi-hour observation, while restricted LAN SSH remains accessible. This supports persistence through an intervening restart but does not document its cause or a controlled reboot test.
+
+`net route disp` succeeds: only LAN, loopback, and multicast IPv4 routes appear, with no default route. Referenced legacy statusview.cgi returns HTTP 200 and labels ETHER WAN Down / N/A. This does not cover all DSL/IPv6 state. The referenced traffic-status tab candidate returns 404. All SSH sessions exited; HTTP/control routes remain available. Full results and private artifact hashes: [MITRA-SOFTWARE-018](docs/experiments/mitra-software-018.md).

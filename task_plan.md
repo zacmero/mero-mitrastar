@@ -160,7 +160,8 @@ marker-command test was submitted. See docs/experiments/network-software-004-008
 
 - [x] MITRA-SSH-015: read native SSH controls and identify handler, session key, client restriction, and rollback.
 - [x] Obtain explicit policy-change instruction; submit restricted LAN SSH and verify live page, Dropbear banner, and authenticated support vendor console.
-- [ ] Verify export freshness and saved-policy persistence; inventory supported read-only console commands.
+- [x] Verify export freshness and inventory supported read-only console commands (016/018).
+- [ ] Controlled saved-policy persistence test remains unperformed; short uptime with retained SSH is supporting evidence only.
 - [x] Archive owner-supplied board photographs; acquisition power state was not independently observed.
 
 27. MITRA-CLI-016 — complete: read-only vendor command map and system/network snapshots.
@@ -169,3 +170,14 @@ marker-command test was submitted. See docs/experiments/network-software-004-008
 29. MITRA-BOARD-017 — complete: one canonical checkout, 17-photo archive/index/hash verification, visual part identification.
 - [x] Archive owner board photographs in this repo, preserving original HEIC bytes.
 - [ ] Measure UART candidate ground, logic voltage/activity, and pin assignments before adapter attachment.
+
+# Software follow-up round — complete
+
+30. Complete: reverified laptop/device topology and existing SSH/HTTP state.
+31. Complete: native backup generation took 14.229 seconds; fresh export matches live restricted LAN SSH.
+32. Complete for this round: authenticated vendor exec/SFTP requests rejected; route display and referenced web status queried. Primary-source search did not establish telnetd flag semantics.
+33. Complete: MITRA-SOFTWARE-018 records results, limitations, private hashes, and next questions in the canonical repo.
+
+No reset/reboot, policy change, service activation, firmware write, or hardware hookup is included in this round.
+
+34. Next software round: exact-build firmware/console handler evidence and remaining referenced status/log views. No matching firmware acquired yet; do not infer `sys telnetd -t` behavior from unrelated implementations.
