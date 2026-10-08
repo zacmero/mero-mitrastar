@@ -1,9 +1,10 @@
 # Device inventory — DSL-100HN-T1-NV
 
 Identity recorded 2026-10-07 from the owner's management-page transcription.
-The agent subsequently fetched an unauthenticated management response over
-Ethernet; it has not verified these model/version fields in an authenticated
-session. See [MITRA-NET-001](../experiments/mitra-net-001.md).
+The agent independently matched every identity field through the About page
+and inspected protected pages in an authenticated browser session. See
+[MITRA-NET-001](../experiments/mitra-net-001.md) and
+[MITRA-UI-002](../experiments/mitra-ui-002.md).
 
 ## Identity
 
@@ -33,7 +34,9 @@ stored here. Public sharing can omit the unit identifiers if desired.
 Accept/Reject options. New rules expose name, protocol, local/remote ports,
 local/remote IPs (`*` means all IPs), and action. The rules table lists local
 and remote policy details. The transcription does not identify the selected
-policies or any installed rules.
+policies or any installed rules. Follow-up browser inspection confirmed Reject
+selected for both Default Policy and WAN ping. No rule entries were visible in
+the captured view.
 
 **Games & Applications:** application/device selection for automatic port
 forwarding, an IP address field, and a selection/removal list. No mapping was
@@ -80,8 +83,11 @@ remotely because RTK is not installed on the laptop.
 - Kernel version, CPU details, ELF byte order/ABI, libc, dynamic loader.
 - Full DHCP configuration, services beyond the short TCP baseline, shell access.
 - Root filesystem, writable storage, flash partition map, recovery procedure.
-- Current firewall values, WAN/DSL connectivity, remote-management settings.
+- Complete firewall rule set, selected WAN operation mode, remote-management
+  services beyond the inspected menu. Default policy and WAN ping are confirmed
+  Reject; status showed no active DSL/PPP data at collection time.
 
-The next evidence comes from authenticated read-only management inventory.
+Authenticated management inventory is complete. It exposes diagnostics but no
+visible shell control. The next step is the access investigation.
 Board photographs are conditional on network findings; opening is not required
 for the first session.

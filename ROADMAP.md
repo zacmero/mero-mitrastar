@@ -44,6 +44,11 @@ connectivity, and a bounded service baseline. Follow
 
 ## Phase 2 — MITRA-UI-002: firmware and management surface
 
+Completed: identity independently confirmed; authenticated statistics, logs,
+diagnostics, account, firewall, LAN, PPPoE, WAN-mode, games, reset, and Wi-Fi
+pages inspected. See [MITRA-UI-002](docs/experiments/mitra-ui-002.md). No visible
+shell control or backup/firmware-upload control was found. Next is Phase 3.
+
 Record read-only pages for identity, status, diagnostics, management services,
 logs, and backup/export capabilities. Inspect resources the UI actually loads
 to identify page paths and request structure. Export configuration only through
@@ -58,6 +63,12 @@ Exit: a map of observed management capabilities and a justified shell-access
 candidate, or a documented absence of a usable network route.
 
 ## Phase 3 — MITRA-ACCESS-003: obtain a shell
+
+Diagnostic baseline completed; see [the result](docs/experiments/mitra-access-003.md).
+Ping and TraceRoute reached loopback; DNS lookup completed with an unresolved
+local name. Frontend validation was inspected without submitting malformed
+values. Server-side argument handling is unknown and no shell was obtained.
+The verified Snake precedent used physical SPI read/write, not network access.
 
 Use an observed management service and owner-provided credentials when it
 offers a shell. An open port or successful web login does not establish shell

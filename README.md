@@ -30,8 +30,12 @@ from local observations. [Predecessor provenance](docs/reference/predecessor.md)
 explains what was retained from the copied Sagemcom project and how to recover
 its files. The original device's results do not describe this router.
 
-[MITRA-NET-001](docs/experiments/mitra-net-001.md) records the first Ethernet
-result. Next is authenticated, read-only UI inventory; no shell is established.
+[MITRA-NET-001](docs/experiments/mitra-net-001.md) records the Ethernet result.
+[MITRA-UI-002](docs/experiments/mitra-ui-002.md) independently confirms identity
+and inventories the authenticated UI. [MITRA-ACCESS-003](docs/experiments/mitra-access-003.md)
+records successful local Ping/TraceRoute and a completed unresolved DNS lookup,
+plus the verified published Snake method. No shell is established; backend
+diagnostic implementation remains the next network research question.
 
 ## Working layout
 

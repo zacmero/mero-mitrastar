@@ -56,3 +56,60 @@ toward executing a tiny program in RAM.
 Repo reset, documentation, roadmap, archive verification, and authorized direct
 connection checks are complete locally. No Git commit/push has been made.
 Next investigation: authenticated read-only UI inventory (MITRA-UI-002).
+
+## Follow-up — MITRA-UI-002
+
+Owner committed/pushed the reset and requested proceeding with the management
+inventory. The working tree was clean at the start of this phase.
+
+7. Recheck laptop/device identity and fetch observed frame/menu pages — complete.
+8. Inspect read-only status, version, diagnostics, and management surfaces — complete;
+   active browser login confirmed and protected pages inspected.
+9. Record capabilities, access barriers, and the next shell-access experiment —
+   complete; MITRA-UI-002 written, temporary browser/tunnel removed, checks passed.
+
+Do not assume the owner's browser login authenticates a separate HTTP client.
+Follow observed UI resources; do not submit configuration forms.
+
+## Follow-up errors resolved
+
+- HTTP helper initially imported SimpleCookie from html.cookies; corrected to
+  http.cookies before any login. Noninteractive tool stdin was closed; used an
+  echo-disabled transient PTY for sensitive stdin.
+- Inactive uiApply login helper did not match the actual clicklogin handler.
+  Active flow includes a page-issued SID in the MD5 input. Mero Browser executed
+  the real login flow successfully; the owner-supplied password was valid.
+- Wrapper's installed version accepts snippets on stdin, not -c. Used the
+  repo wrapper's supported stdin interface, retaining the Mero workspace contract.
+- Browser frame coordinate filling was unreliable; native CDP DOM focus and a
+  verified population check succeeded before submission.
+
+## MITRA-UI-002 completion
+
+Authenticated inventory is complete. No visible shell control was found; next
+is MITRA-ACCESS-003. Dedicated browser/daemon/tunnel/profile and the remote
+transient helper were removed. Local docs/evidence/credential checks passed.
+New repository changes remain local and uncommitted.
+
+## Follow-up — MITRA-ACCESS-003: diagnostic handler investigation
+
+Owner authorized inspecting the diagnostic route first and emphasized the
+reported successful Snake firmware modification as a retained alternative.
+
+10. Map active diagnostic validation, request fields, and result handling — complete.
+11. Recheck Ethernet identity, authenticate, and run one loopback ping — complete;
+    local TraceRoute and DNS lookup also completed with bounded targets.
+12. Record backend evidence/limitations and compare next steps with Snake route —
+    complete; see docs/experiments/mitra-access-003.md. No shell obtained.
+
+Keep this experiment bounded. Do not submit firmware, change router policy,
+reset/reboot, or test disruptive payloads. Browser login credentials remain
+authorized from the previous turn and must stay out of commands/tracked files.
+
+Source retrieval: built-in web search still returns a response decoding error.
+Requested original article URLs while independent diagnostic work proceeds.
+
+Pulled source-index commit 076d8fb with local changes preserved. Original Boina
+articles were retrieved via the author's Medium RSS feed. His Snake route uses
+physical SPI extraction/reprogramming, not an Ethernet shell exploit. Diagnostic
+baseline is complete; server-side validation and this unit's ABI remain unknown.

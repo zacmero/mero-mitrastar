@@ -82,3 +82,52 @@ requirements are recorded in research/mitrastar-leads.md.
 - Raw evidence saved privately under
   .local/captures/20261008T005029Z-mitra-net-001/; reviewed result is
   docs/experiments/mitra-net-001.md.
+
+## MITRA-UI-002 — independent UI inventory
+
+- Read the observed menu/header/default-status frames through Ethernet without
+  credentials or cookies. All returned HTTP 200.
+- About page about-power-box.html returned HTTP 200 and independently confirmed
+  all owner-transcribed identity/version fields exactly.
+- Seven protected menu pages (statistics, logs, Internet utilities, account
+  settings, firewall, local network, Internet settings) returned HTTP 302 to
+  sophia_login.asp. The owner's browser session does not authenticate this
+  separate client.
+- Status page reports no active DSL/PPP data and displayed zero WAN IPv4
+  values. LAN UI and the wired management path are working.
+- Requested missing label login credentials; inspect the actual login form
+  and document the resource map while awaiting that input.
+- Owner supplied credentials. The active clicklogin handler computes
+  MD5(page-issued SID + ':' + password), then base64(username + ':' + digest).
+  An older uiApply helper uses a different transformation and was not the
+  button's active handler; initial HTTP attempts did not authenticate.
+- Mero Browser authenticated successfully through a local-only SOCKS tunnel to
+  the laptop. The browser executed the actual per-page challenge flow. Firefox
+  on the laptop is a separate session and was not controlled.
+- Protected statistics, logs, diagnostics, account, firewall, LAN, Internet,
+  WAN-mode, and games pages were rendered and inspected without saving settings.
+- LAN 4 carries traffic, zero visible errors/discards at capture time. DHCP
+  enabled on 192.168.15.1/24, pool .2-.253, lease 720 minutes. Custom DNS disabled.
+- Default firewall policy and WAN ping both have Reject selected.
+- Diagnostics exposes Ping, TraceRoute, DNS lookup; no tool was run. Account
+  settings exposes password-change fields, not a visible shell enable control.
+- System logs displayed no event entries with the default filter. This does not
+  establish that logging is disabled or that no events exist in other filters.
+# MITRA-ACCESS-003 diagnostic results — 2026-10-08 UTC
+
+Authenticated router diagnostics completed through the verified laptop Ethernet
+route. One loopback ping returned 1/1 packets, 0% loss, 0.714 ms. TraceRoute
+reached loopback at hop 1. DNS lookup used resolver 127.0.0.1 and failed to
+resolve localhost, with a normal completion marker. Output is in an iframe
+textarea, not exposed reliably by body innerText. No shell or ABI was obtained.
+
+Frontend validator-only checks accept spaces, a leading option-like string,
+and large positive ping counts; semicolon/newline are rejected. No malformed
+value was submitted. Backend validation/command construction remain unknown;
+these results do not demonstrate command injection.
+
+Original Boina articles are available through his Medium RSS feed. The Snake
+case uses CH341A SPI extraction, SquashFS modification, and physical flash
+rewrite; UART boot ends at a login prompt. Neither establishes Ethernet shell
+access or exact firmware compatibility with this unit. Full evidence and
+next-step limits: docs/experiments/mitra-access-003.md.

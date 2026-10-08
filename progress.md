@@ -42,3 +42,75 @@
   tree, and matching network artifact hashes. All requested work and authorized
   connection checks are complete. Git changes remain local and uncommitted;
   shell access remains unverified.
+
+## MITRA-UI-002 — requested management inventory
+
+- Owner reports the reset was committed/pushed; Git working tree is clean.
+- Existing unauthenticated response is a frameset. It loads sophia_menu.html,
+  sophia_header.html, and gvt_info.html by default. Begin with these observed
+  resources through the laptop's Ethernet link.
+- Rechecked the Ethernet route and neighbor identity before read-only requests.
+- Retrieved About and seven protected menu destinations. About independently
+  matched every reported identity field; protected destinations redirected to
+  the login page. No credentials/cookies were sent and no forms were submitted.
+- Requested the router login credentials, absent from the conversation. Raw
+  responses are local ignored files with mode 0600.
+- Owner supplied login credentials; used transient stdin with terminal echo
+  disabled, never embedded credentials in commands or tracked files.
+- Corrected an HTTP helper import; no login had occurred before that error.
+  Its initial password transformation was wrong because it came from an inactive
+  UI helper. Two form submissions and two read-only Basic-auth checks did not
+  establish access. No password guessing occurred.
+- Switched to Mero Browser, dedicated headless Chromium and a local-only SOCKS
+  SSH tunnel. Followed the active challenge-based login handler. Native DOM
+  focus and verified field population resolved iframe coordinate issues;
+  authenticated statistics and nine protected pages were then inspected.
+- Continuing with reset-page inventory and Wi-Fi state only; no device settings
+  or diagnostic tests are submitted.
+- Authenticated inventory complete. Confirmed DHCP details, Reject firewall/WAN
+  ping selections, Wi-Fi security/radio state, empty default log view, diagnostics
+  choices, and reboot/reset controls. SSH/Telnet strings are application
+  forwarding presets, not local shell controls.
+- Wrote MITRA-UI-002 and updated README, inventory, and roadmap. Two combined
+  documentation patches failed context checks without applying; resolved by
+  applying the new record and known updates separately.
+- Redacted session-key/SID assignments in retained rendered snapshots, preserving
+  original and stored-content hashes. Credentials remain absent from tracked
+  files; no diagnostic or settings operation was submitted.
+- Closed the dedicated investigation Chromium and daemon, stopped only the
+  matching local SOCKS SSH tunnel, removed its temporary browser profile, and
+  removed the transient helper from the laptop. Ports 1088/9228 have no listeners.
+- Final checks passed: documentation links/formatting, Git whitespace, nine
+  authenticated rendered snapshots, artifact SHA-256, and credential-leak scan
+  of all 14 public workspace files. No matches for the supplied password or
+  its simple digest/authentication encoding. User's Firefox was not controlled.
+- MITRA-UI-002 complete. Next is diagnostic/session handler and exact-firmware
+  research toward shell access. Changes are local and uncommitted.
+
+## MITRA-ACCESS-003 — diagnostic handlers
+
+- Owner authorized the diagnostic route and asked to retain the Snake firmware
+  precedent. It remains recorded in research/mitrastar-leads.md; original URLs
+  requested for direct verification.
+- Began extracting actual diagnostic validation and request-construction code.
+- Web search response decoder still fails; do not treat reported Snake details
+  as independently retrieved evidence.
+# MITRA-ACCESS-003 — 2026-10-08 UTC
+
+- Pulled source-index commit 076d8fb, preserving local UI documentation.
+- Reauthenticated the dedicated browser. The helper's statistics-only success
+  assertion failed because login restored the diagnostics page; inspected the
+  actual authenticated page before continuing.
+- Initial laptop SSH banner timeouts resolved; authenticated SSH subsequently
+  confirmed cris-MS-1454/enp6s0/192.168.15.3 and the expected router neighbor MAC.
+- Completed one loopback ping, one loopback traceroute, and one localhost DNS
+  lookup. No malformed payload, configuration change, or flash operation ran.
+- Corrected result extraction to read the iframe textarea. Duplicate TEST IDs
+  and an input replacement check stopped early attempts before submission;
+  verified the visible controls and exact destinations before running tests.
+- Retrieved Boina's primary articles through Medium RSS; confirmed the Snake
+  method requires SPI firmware read/write and does not supply a network shell.
+- Wrote MITRA-ACCESS-003 and updated README/roadmap/plan/findings. Shell access
+  remains open. Local evidence stays ignored; repository changes are uncommitted.
+- Closed the dedicated browser/daemon/tunnel and removed its temporary profile.
+  Artifact hashes, result assertions, local links, and git diff checks passed.
