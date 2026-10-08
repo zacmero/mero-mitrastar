@@ -64,6 +64,17 @@ candidate, or a documented absence of a usable network route.
 
 ## Phase 3 — MITRA-ACCESS-003: obtain a shell
 
+The owner authorized the methodical [network/software sequence](docs/tooling/network-software-plan.md):
+service discovery, authenticated resource mapping, diagnostic argument handling,
+outbound capture/interception feasibility, and exact firmware analysis. Follow
+that sequence before deciding whether the hardware branch is necessary.
+
+[The first round](docs/experiments/network-software-004-008.md) completed full
+TCP coverage, initial UDP checks, authenticated reference mapping, four bounded
+Ping variants, and two LAN captures. Ping option parsing is confirmed; general
+command execution is not. WAN traffic and exact firmware remain unresolved.
+The owner requested documentation before further testing or agent handoff.
+
 Diagnostic baseline completed; see [the result](docs/experiments/mitra-access-003.md).
 Ping and TraceRoute reached loopback; DNS lookup completed with an unresolved
 local name. Frontend validation was inspected without submitting malformed

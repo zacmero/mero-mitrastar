@@ -114,3 +114,41 @@
   remains open. Local evidence stays ignored; repository changes are uncommitted.
 - Closed the dedicated browser/daemon/tunnel and removed its temporary profile.
   Artifact hashes, result assertions, local links, and git diff checks passed.
+# Network/software first round — 2026-10-08 UTC
+
+- Recorded all five stages, limits, exit criteria, and WAN visibility alternatives.
+- Completed TCP ports 1–65535 with rate/concurrency caps and passing health
+  checks; performed bounded UDP discovery and longer selected-port rechecks.
+- Retrieved nine pages and six scripts; mapped 55 candidate references without
+  launching unknown/performance/configuration operations. USB view returned 404.
+- Restored authenticated access with a fresh login and disabled cache; index
+  arrival alone had not verified a protected page. Session expiry later required
+  another fresh login. Recorded the limitation without asserting a cause.
+- Ran four single-packet local Ping variants. Zero-byte output confirmed supplied
+  option parsing. Early native input verification failures caused no submission.
+- Used owner-supplied sudo authentication via hidden stdin for two bounded LAN
+  captures. No credentials were placed in command arguments or tracked files.
+- Performed an initial official firmware-source check; no exact-build image found.
+- Owner stopped Codex tests and requested a Gemini handoff, then requested
+  documentation first. Identified the idle Gemini tab but sent no message.
+  A credential handoff helper was cancelled before receiving any credentials;
+  no credential FIFO was created. Removed the unused helper and handoff draft.
+- Wrote first-round report with artifact hashes; updated roadmap, README,
+  findings, plan, and progress. No marker-command comparison, shell, persistent
+  router change, commit, or push occurred during this follow-up round.
+- Verified local links, seven artifact hashes, scan totals, diagnostic output,
+  and absence of the unused credential FIFO. Both supplied-secret scans passed
+  across 17 public workspace files. Git diff whitespace checks passed.
+- Closed the dedicated automation browser/daemon/SOCKS tunnel and removed its
+  temporary profile. The owner's Firefox session was not closed or logged out.
+# Complete handoff preparation — 2026-10-08 UTC
+
+- Owner requested HANDOFF.md and commit/push of the reviewed first round.
+- Wrote the self-contained handoff: topology, SSH/browser restoration, confirmed
+  measurements, exact next diagnostic comparison, remaining five-stage work,
+  interpretation criteria, WAN visibility, recovery boundaries, and cleanup.
+- Stored owner-supplied credentials in ignored .local/handoff/credentials.json
+  with mode 0600 in a mode-0700 directory, using hidden stdin. Values are absent
+  from tracked documents and command arguments. This is local-only handoff data.
+- Added README entry and linked first-round documentation. The owner will
+  instruct Gemini directly; no agent message or additional device test was sent.

@@ -113,3 +113,29 @@ Pulled source-index commit 076d8fb with local changes preserved. Original Boina
 articles were retrieved via the author's Medium RSS feed. His Snake route uses
 physical SPI extraction/reprogramming, not an Ethernet shell exploit. Diagnostic
 baseline is complete; server-side validation and this unit's ABI remain unknown.
+# Follow-up — network/software sequence
+
+Owner requested recording and executing all five network/software stages
+methodically. The detailed bounds and WAN visibility alternatives are in
+docs/tooling/network-software-plan.md. Persistent router/network changes remain
+outside this instruction.
+
+13. MITRA-SERVICES-004: full TCP coverage and initial UDP discovery — complete;
+    longer TCP 161 check and any justified protocol follow-ups remain open.
+14. MITRA-WEB-005: initial referenced resource map — complete; nine pages,
+    six scripts, 55 candidate paths; server-side implementation unavailable.
+15. MITRA-DIAG-006: harmless variants — complete; supplied -s 0 changed ping
+    payload to zero bytes. General command handling and shell access remain open.
+16. MITRA-PASSIVE-007: two bounded LAN captures — complete; no suitable
+    router-originated WAN request identified and the DSL path is unobserved.
+17. MITRA-FW-008: initial official source check — complete; exact-build source
+    identification and offline analysis remain open.
+
+The owner stopped Codex router testing, proposed a Gemini handoff, then asked
+to finish documentation here first. No message was sent to Gemini and no
+marker-command test was submitted. See docs/experiments/network-software-004-008.md.
+
+18. Owner subsequently requested the complete handoff file and commit/push —
+    HANDOFF.md prepared with access/restoration procedures, evidence, next tests,
+    interpretation criteria, and private local prerequisites. The owner will
+    instruct Gemini directly. No new device testing or Herdr prompt was issued.

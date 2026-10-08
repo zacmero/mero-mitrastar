@@ -19,6 +19,9 @@ storage on the router, after obtaining a shell and checking its binary ABI.
 
 ## Start here
 
+For the next agent, read the [complete handoff](HANDOFF.md) first. It records
+access, completed measurements, private prerequisites, and the exact next test.
+
 1. Read the [device inventory](docs/hardware/device.md).
 2. Establish the [direct Ethernet lab](docs/tooling/ethernet-lab.md), preserving
    the laptop's SSH control path.
@@ -36,6 +39,13 @@ and inventories the authenticated UI. [MITRA-ACCESS-003](docs/experiments/mitra-
 records successful local Ping/TraceRoute and a completed unresolved DNS lookup,
 plus the verified published Snake method. No shell is established; backend
 diagnostic implementation remains the next network research question.
+
+The [network/software plan](docs/tooling/network-software-plan.md) records the
+methodical follow-ups. [First-round results](docs/experiments/network-software-004-008.md)
+cover all TCP ports, UDP checks, resource mapping, supplied ping options, and
+LAN captures. Only TCP 80 accepted connections; UDP DNS replied with REFUSED.
+The destination field accepts ping options, but general command execution and
+shell access remain unproven.
 
 ## Working layout
 

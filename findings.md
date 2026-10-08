@@ -131,3 +131,23 @@ case uses CH341A SPI extraction, SquashFS modification, and physical flash
 rewrite; UART boot ends at a login prompt. Neither establishes Ethernet shell
 access or exact firmware compatibility with this unit. Full evidence and
 next-step limits: docs/experiments/mitra-access-003.md.
+# Network/software first round — 2026-10-08 UTC
+
+Full TCP coverage: 80 open, 65527 refused, seven timed out
+(21/22/23/53/161/443/7547); 755.08 seconds, all HTTP health checks passed.
+UDP DNS replied REFUSED; bounded SSDP/mDNS checks received no reply. Nine
+pages and six scripts were retrieved; 55 candidate references mapped.
+
+Diagnostic destination '-c 1 -s 0 127.0.0.1', count 1, returned zero data
+bytes. Supplied options therefore reach the ping utility as parsed arguments.
+This does not identify the backend construction mechanism or establish general
+command execution. No marker-command comparison was submitted.
+
+Sudo enabled two 30-second LAN captures. Captured DNS requests originated from
+the laptop; the router refused them. No suitable router-originated WAN request
+was identified. The DSL path remains outside the laptop's capture visibility.
+No exact-build image/source was obtained in the initial vendor-homepage check.
+
+The owner stopped Codex device tests and requested documentation before handoff.
+No message was sent to Gemini. Detailed measurements and evidence hashes:
+docs/experiments/network-software-004-008.md.
