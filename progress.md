@@ -252,3 +252,11 @@
 - Downloaded export still contains pre-change ACL; export freshness and reboot persistence remain unresolved. No reset, reboot, save, or firmware write performed.
 
 - Console `sys swversion` directly confirms BR_SA_113WUK0b15; `sys uptime` and `net ?` queried successfully. Sessions closed normally; authorized LAN SSH remains enabled.
+
+# MITRA-CLI-016 — 2026-10-08
+
+- Reverified laptop/interface/router identity and completed five bounded support-console sessions using help and display commands.
+- Discovered native `sys state mem/cpu/nat`; collected LAN, TR-069, Wi-Fi, and DMZ status.
+- Preserved private captures and recorded SHA-256 values; credential-bearing output is excluded from public summaries.
+- No settings or services changed; no reset, reboot, save, or firmware write. All console sessions ended.
+- Remaining: determine telnetd flag/console handler implementation; Linux shell, ABI, and SSH persistence remain unverified.

@@ -162,3 +162,6 @@ marker-command test was submitted. See docs/experiments/network-software-004-008
 - [x] Obtain explicit policy-change instruction; submit restricted LAN SSH and verify live page, Dropbear banner, and authenticated support vendor console.
 - [ ] Verify export freshness and saved-policy persistence; inventory supported read-only console commands.
 - [ ] Archive owner-planned board photographs tomorrow, with device power disconnected.
+
+27. MITRA-CLI-016 — complete: read-only vendor command map and system/network snapshots.
+28. Pending: establish exact-build console/SSH/telnetd handler behavior through matching code or firmware; do not invoke unexplained flags.

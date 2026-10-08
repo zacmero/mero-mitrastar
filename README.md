@@ -92,3 +92,5 @@ in the predecessor commit and the local archive. No Git history was rewritten.
 The merged configuration analysis is in [research/romfile-analysis.md](research/romfile-analysis.md). It distinguishes observed ACL entries from unverified daemon and restore behavior.
 
 Latest software step: [MITRA-SSH-015](docs/experiments/mitra-ssh-015.md) confirms the native LAN SSH controls; restricted LAN SSH is enabled after owner authorization, and the `support` vendor console is accessible. Linux shell access remains unproven.
+
+Latest console inventory: [MITRA-CLI-016](docs/experiments/mitra-cli-016.md) documents read-only command usage, LAN4 link, br0, memory/CPU/NAT snapshots, and private TR-069/Wi-Fi status captures. Linux shell access remains unproven.

@@ -308,3 +308,7 @@ of claiming all software/network possibilities have been exhausted.
 # Latest SSH route — MITRA-SSH-015
 
 Branches merged into master at `2d70fd1`. Owner subsequently authorized native restricted LAN SSH. Live page shows LAN / port 22 / client range 192.168.15.3 only; Dropbear 2019.78 responds. `support` credentials yield a vendor console; remote exec requests are denied. Read [MITRA-SSH-015](docs/experiments/mitra-ssh-015.md) before continuing. Do not invoke console save, reset, or reboot to test persistence without a corresponding owner instruction. Downloaded configuration still shows old ACL; export freshness is unresolved. Photos are planned by owner for tomorrow.
+
+# Latest vendor console inventory — MITRA-CLI-016
+
+Read [MITRA-CLI-016](docs/experiments/mitra-cli-016.md). `sys state mem`, `sys state cpu`, and `sys state nat` work. The telnetd branch lists `-t` without semantics; it was not invoked. TR-069/Wi-Fi display output contains secrets, so capture privately before review. Native shell and ABI remain unknown. All sessions closed; no router changes beyond the earlier authorized SSH setting.

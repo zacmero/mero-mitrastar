@@ -167,3 +167,5 @@ changes require an explicit instruction for that operation. No such operation
 is part of the repository-reset session.
 
 MITRA-SSH-015 has now reached the authenticated support vendor console through the native LAN SSH setting. Next: documented read-only console inventory, then determine whether a supported Linux-shell route exists. Configuration export freshness and persistence remain open. Owner plans powered-off board photographs tomorrow for the archive.
+
+MITRA-CLI-016 completes an initial read-only console map. Native memory, CPU-load, NAT-usage, LAN, Wi-Fi, and TR-069 queries work. Next is understanding exact-build command handlers, especially the unexplained telnetd flag, while preparing the independent board-photo/UART route. A Linux shell remains the next programming prerequisite.

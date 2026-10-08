@@ -270,3 +270,7 @@ The legacy SSH page is accessible and exposes Disable/LAN/WAN/Both, port 22, and
 After explicit owner authorization, the native LAN SSH form opened TCP 22 (Dropbear 2019.78). `support` password authentication reaches a vendor `>` console, not a confirmed Linux shell. Native exec requests are denied; `sys ?` lists state, software version, and uptime alongside mutating commands that were not invoked. The downloadable export still reflects the old ACL, so persistence is unverified.
 
 The support console directly reports firmware BR_SA_113WUK0b15 via `sys swversion`. `sys uptime` works; `net ?` exposes a route subcommand. These results establish a vendor inventory interface, not executable ABI or native shell access.
+
+# MITRA-CLI-016 — Vendor inventory
+
+The authenticated support console maps `sys state` to `sysstate <mem|cpu|nat>`. Observed 28968 kB total memory, 3076 kB free, CPU load 4%, and NAT 4/4096; these are snapshots, not physical RAM or CPU/ABI identification. LAN4 is 100 Mbps/full duplex; `lan show primary` returns br0 at 192.168.15.1/24, MTU 1500. TR-069 is configured active with a 68400-second periodic interval; connection success is unproven. `sys telnetd ?` lists `-t`, whose semantics were not tested. See [MITRA-CLI-016](docs/experiments/mitra-cli-016.md).
