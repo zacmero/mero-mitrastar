@@ -1,1 +1,0 @@
-# Nmap 7.991 scan initiated Sat Sep 19 01:06:49 2026 as: nmap -Pn -n -e enp5s0 -sS -sV --version-all -O --osscan-limit -p- -T3 --max-rate 500 --max-retries 2 --script=banner,http-title,http-headers,ssl-cert,ssh-hostkey -oA captures/network-service-011-tcp 192.168.1.57

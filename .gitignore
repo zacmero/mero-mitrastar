@@ -1,0 +1,26 @@
+# Local agent state and raw research artifacts
+/.local/
+/.serena/
+/captures/
+/artifacts/
+/backups/
+/firmware/
+/build/
+
+# Generated files and secrets
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+.env.*
+!.env.example
+*.pcap
+*.pcapng
+*.key
+*.pem
+*.bin
+*.img
+*.dump
+*.log
+*~

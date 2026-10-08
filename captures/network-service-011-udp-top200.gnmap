@@ -1,4 +1,0 @@
-# Nmap 7.991 scan initiated Sat Sep 19 01:20:16 2026 as: nmap -Pn -n -e enp5s0 -sU --top-ports 200 -T4 --max-retries 1 --host-timeout 10m --script=banner,upnp-info -oA captures/network-service-011-udp-top200 192.168.1.57
-Host: 192.168.1.57 ()	Status: Up
-Host: 192.168.1.57 ()	Ports: 	Ignored State: open|filtered (200)
-# Nmap done at Sat Sep 19 01:20:26 2026 -- 1 IP address (1 host up) scanned in 10.30 seconds

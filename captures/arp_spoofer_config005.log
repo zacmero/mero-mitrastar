@@ -1,4 +1,0 @@
-[*] ARP redirector active on enp5s0
-[*] Exact pair: 192.168.1.61 (68:15:90:6b:81:96) <-> 192.168.1.1 (14:ca:56:81:18:71) via fc:aa:14:f5:c6:a2
-[*] Restoring the exact poisoned ARP pair...
-[*] Exact ARP-pair restoration frames sent.

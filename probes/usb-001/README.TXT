@@ -1,3 +1,0 @@
-MERO-STB USB PROBE
-Sagemcom DSI74 / STiH237
-USB probe 001
