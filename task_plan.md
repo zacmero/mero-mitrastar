@@ -181,3 +181,15 @@ marker-command test was submitted. See docs/experiments/network-software-004-008
 No reset/reboot, policy change, service activation, firmware write, or hardware hookup is included in this round.
 
 34. Next software round: exact-build firmware/console handler evidence and remaining referenced status/log views. No matching firmware acquired yet; do not infer `sys telnetd -t` behavior from unrelated implementations.
+
+# Status/log and implementation follow-up — complete
+
+35. Complete: topology, working legacy log/traffic tabs and referenced read-only displays verified.
+36. Complete for this bounded search: related SDK inspected; different command set and Dropbear version, no exact-build image/handler acquired.
+37. Complete: MITRA-SOFTWARE-019 records native upload interface, inventory snapshots, source limits, and evidence hashes.
+
+This round remains read-only: no service activation, router save/reset/reboot, or firmware operation.
+
+38. Next access experiment: measure this board’s UART candidate, then passive serial capture after compatibility checks. Matching firmware/source or verified flash acquisition remains a software-analysis prerequisite.
+
+019 errors: incorrect Sophia default-status filename returned 404; followed actual frame references. External code-search suggested a missing source path and failed its parallel import; direct GitHub tree/raw retrieval succeeded.

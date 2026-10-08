@@ -91,3 +91,7 @@ After explicit owner authorization, native LAN-only SSH with laptop client range
 Fresh export generation is understood: the native backup JavaScript waits for ConfigFilter.cgi, then downloads `/romfile.cfg`. A bounded 20-second request with the observed XHR headers succeeded in 14.229 seconds. The subsequent fresh export matches LAN / port 22 / client range 192.168.15.3. Previous shorter timeouts did not cover that duration. Reboot persistence is supported by short runtime uptime with SSH retained, but no controlled restart was performed.
 
 Known vendor-command exec and SFTP requests both authenticated and failed at the channel request. The interactive vendor console is still available. These are access distinctions, not proof that SSH or the filesystem lacks any other capability. See [the new record](../experiments/mitra-software-018.md).
+
+## Native firmware upload — MITRA-SOFTWARE-019
+
+The legacy menu references /cgi-bin/pages/maintenance/firewareUpgrade/firewareUpgrade.html, which returns this build's multipart firmware-upload form. Managed-status fields render 0 in the main page and referenced iframe; backend image acceptance is untested. This supersedes any inference from Sophia alone that no native upload surface exists. No upload, upgrade check, firmware image download, or recovery validation occurred. A matching image, format/integrity analysis and recovery remain prerequisites to writing firmware. See [019](../experiments/mitra-software-019.md).

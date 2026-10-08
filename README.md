@@ -105,3 +105,5 @@ Latest console inventory: [MITRA-CLI-016](docs/experiments/mitra-cli-016.md) doc
 Board archive: [17 photographs and visual findings](board_pictures/README.md). Original HEIC files remain local; metadata-stripped JPEG copies are tracked.
 
 [MITRA-SOFTWARE-018](docs/experiments/mitra-software-018.md) resolves fresh backup generation: wait for generation to finish before downloading; this run took 14.229 seconds. The new export matches restricted LAN SSH. Authenticated vendor-command exec and SFTP requests are rejected. Native `net route disp` works and currently shows no IPv4 default route.
+
+[MITRA-SOFTWARE-019](docs/experiments/mitra-software-019.md) confirms working legacy log/traffic displays and a native firmware-upload interface. No image was uploaded or acquired. Current native link is LAN2 at 100 Mb/s/full duplex. Related SDK code does not match this console/build; next access evidence is measured UART/serial or a verified matching firmware image.

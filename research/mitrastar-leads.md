@@ -63,3 +63,7 @@ An earlier 2026-10-07 version of this file recorded a failed attempt by another 
 ## Offline emulation follow-up
 
 [Maycon — Emulando binários dos firmwares (2018-02-19)](https://maycon.hacknroll.io/embedded-hacking/2018/02/19/embedded-hacking-emulando-binarios.html) uses the exact-model SPI dump from his earlier article, extracts SquashFS, and demonstrates QEMU user-mode analysis. This is a useful method once we obtain a verified image; his other-unit binaries do not establish our ABI. The inspected rendered article links do not supply an exact-build image. See MITRA-SOFTWARE-018 for the bounded search scope and remaining handler questions.
+
+## Related SDK comparison, not an exact-build release
+
+[EN751221-Linux26](https://github.com/cjdelisle/EN751221-Linux26) has an explicit MT7505 identification macro in the kernel tree. Its inspected tcci command set and Dropbear 0.52 source differ from this unit's console and 2019.78 banner. It does not establish telnetd flag behavior or a compatible firmware/toolchain. [MITRA-SOFTWARE-019](../docs/experiments/mitra-software-019.md) records paths, hashes, source-tool failures/fallback, and applicability limits. No SDK binary was run or transferred.

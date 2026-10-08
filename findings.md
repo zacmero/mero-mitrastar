@@ -279,7 +279,7 @@ The authenticated support console maps `sys state` to `sysstate <mem|cpu|nat>`. 
 
 Reviewed 17 owner photos of both PCB sides. Main package MT7505N; RF-area package MT7592N; companion MT7583N; MXIC flash marking 25L12835F. Manufacturer specification for the matched flash is 128 Mbit / 16 MiB. Five-position header has four pins and remains an unmeasured UART candidate. No electrical test or flash read/write performed. See [board review](docs/experiments/mitra-board-017.md).
 
-# Software follow-up — in progress
+# Software follow-up — MITRA-SOFTWARE-018 complete
 
 Reverified cris-MS-1454/enp6s0 at 192.168.15.3 and router neighbor ac:c6:62:8d:99:78. Live SSH page remains identical to the recorded LAN-enabled page. `/romfile.cfg` currently returns HTTP 404. Native backup JavaScript loads ConfigFilter.cgi before downloading `/romfile.cfg`; no restore or apply action is involved. Exact-model primary-source research has not established the meaning of vendor `sys telnetd -t`; unrelated telnet implementations are not evidence. Maycon’s February 2018 emulation article demonstrates offline analysis of another unit’s extracted filesystem, not this unit’s ABI or shell access.
 
@@ -288,3 +288,23 @@ Native backup generation with the observed jQuery XHR header completed in 14.229
 Console follow-up returns `net route [disp|add|del]` usage; `disp` is the native display operation and is the next bounded query. IGMP showtable prints column headings without group rows. Runtime uptime is about eight minutes, much shorter than the earlier multi-hour observation, while restricted LAN SSH remains accessible. This supports persistence through an intervening restart but does not document its cause or a controlled reboot test.
 
 `net route disp` succeeds: only LAN, loopback, and multicast IPv4 routes appear, with no default route. Referenced legacy statusview.cgi returns HTTP 200 and labels ETHER WAN Down / N/A. This does not cover all DSL/IPv6 state. The referenced traffic-status tab candidate returns 404. All SSH sessions exited; HTTP/control routes remain available. Full results and private artifact hashes: [MITRA-SOFTWARE-018](docs/experiments/mitra-software-018.md).
+
+# MITRA-SOFTWARE-019 — complete
+
+Topology reverified. Referenced legacy firmware-upgrade and system views return HTTP 200. tabFW returns the same generic wrapper for log and traffic-status menu queries; this alone does not establish working tab data. A guessed Sophia default-status filename returns 404; use observed frame references instead. Source research found a public EN751221-Linux26 SDK with explicit MT7505 register-identification code; applicability to this firmware remains unverified.
+
+Legacy firmware-upgrade source displays this build and an upload form. Upgrade_Managed renders 0 and client JavaScript checks an ACS-managed restriction; backend acceptance remains untested. tabFW explicitly uses /pages/... as its tab path, so /cgi-bin/pages/... was not the right static tab candidate. SDK comparison search running; no service flag invoked.
+
+Correct static tab paths /pages/systemMonitoring/log/tab.json and /pages/systemMonitoring/trafficStatus/tab.json both return 200. They reference native viewlog.html and WAN/LAN/NAT status pages under /cgi-bin/pages/systemMonitoring/. Previous /cgi-bin/pages/.../tab.json 404 was a path-resolution error, not unavailable traffic tabs.
+
+Working legacy traffic/log tabs reference ViewSyslog.cgi, lan_frame.cgi, traffic_nat.cgi, and WAN status frames. Display GETs only; no log filters/clear controls or refresh settings submitted. Firmware managed-status iframe also renders upgradesManaged=0; its conditional POST requires preparepost=1, which was never set. No upgrade-handler acceptance or firmware acquisition established.
+
+Display results: ViewSyslog.cgi has headers/blank row without log messages; WAN frames have no populated connection row and zero aggregate packet values. NAT page lists laptop and 20 open sessions but does not enumerate destinations or prove WAN access. LAN counters label the nonzero column LAN2, whereas earlier native portstatus said LAN4; recheck native link and keep this discrepancy explicit instead of changing the verified topology.
+
+Fresh native portstatus agrees with current legacy counters: LAN2 up at 100 Mbps/full duplex; other LAN ports down. Earlier LAN4 observation was from the previous session, so retain it as historical rather than treating it as current. Current console NAT used 30/4096 versus earlier web 20 open sessions; snapshots/semantics differ and neither establishes WAN traffic. Uptime now about 24 minutes.
+
+SDK tree API succeeded: apps tree has 52,543 entries and is not truncated. Retrieved comparison tcci, utelnetd, and Dropbear 0.52 source. The checked tcci source does not contain telnetd, exitOnIdle, tecal, swversion, or the observed missing-subcommand text. The SDK Dropbear version differs from our 2019.78 banner; its exec/subsystem handlers are therefore comparison code, not our implementation. Vendor flag meaning remains unresolved. Official MitraStar Germany/o2 page lists unrelated products, not this exact Vivo build.
+
+Remote-management tab lists General, WWW, SNMP, DNS, ICMP, SSH; no Telnet/FTP tab. General view provides only an enabled/disabled master remote-management control, currently Enabled. No native Telnet activation form established through these referenced controls. tabFW remaps SSH tab label to MLG_Tab_subTitle_NO_SFTP; checking its translation before interpreting it.
+
+Translation MLG_Tab_subTitle_NO_SFTP renders simply SSH, so its name is not a user-visible restriction statement. Native firmware upload is now confirmed as a UI surface, not backend acceptance or acquired firmware. Results: [MITRA-SOFTWARE-019](docs/experiments/mitra-software-019.md). Next access evidence is measured UART/serial or matching image/source; no shell obtained or settings changed.
