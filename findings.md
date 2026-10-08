@@ -274,3 +274,7 @@ The support console directly reports firmware BR_SA_113WUK0b15 via `sys swversio
 # MITRA-CLI-016 — Vendor inventory
 
 The authenticated support console maps `sys state` to `sysstate <mem|cpu|nat>`. Observed 28968 kB total memory, 3076 kB free, CPU load 4%, and NAT 4/4096; these are snapshots, not physical RAM or CPU/ABI identification. LAN4 is 100 Mbps/full duplex; `lan show primary` returns br0 at 192.168.15.1/24, MTU 1500. TR-069 is configured active with a 68400-second periodic interval; connection success is unproven. `sys telnetd ?` lists `-t`, whose semantics were not tested. See [MITRA-CLI-016](docs/experiments/mitra-cli-016.md).
+
+# MITRA-BOARD-017 — This unit photographed
+
+Reviewed 17 owner photos of both PCB sides. Main package MT7505N; RF-area package MT7592N; companion MT7583N; MXIC flash marking 25L12835F. Manufacturer specification for the matched flash is 128 Mbit / 16 MiB. Five-position header has four pins and remains an unmeasured UART candidate. No electrical test or flash read/write performed. See [board review](docs/experiments/mitra-board-017.md).

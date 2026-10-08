@@ -13,9 +13,10 @@ storage on the router, after obtaining a shell and checking its binary ABI.
 - Direct Ethernet is verified through laptop `cris-MS-1454`: `enp6s0` at
   `192.168.15.3`, 100 Mb/s full duplex, expected router MAC, and HTTP 200 from
   the management page. SSH control uses the laptop's Wi-Fi at `192.168.1.80`.
-- Linux, MT7505/MIPS, UART, and SPI flash information is currently supplied by
-  partner research about other units. This unit's shell, chips, and ABI remain
-  unverified.
+- Board photographs identify the MT7505N main package and MXIC 25L12835F flash
+  marking on this unit. A populated header is a UART candidate; its pins and
+  voltage remain unmeasured. Linux shell, runtime CPU details, and ABI remain
+  unverified. See [board review](docs/experiments/mitra-board-017.md).
 
 ## Start here
 
@@ -64,13 +65,18 @@ at `/padrao`, authenticates administrative user `support`, exports the router co
 and TR64 with interfaces set to `Disable`. Running daemons and shell privileges
 remain unverified. This discovery provides a concrete software lead.
 
-Next: inspect the legacy SSH management controls and prepare a bounded LAN-only
-change with rollback. Read the [configuration/firmware decision](docs/tooling/configuration-and-firmware.md).
+Restricted LAN SSH and vendor console inventory are complete for the initial
+round. Next: identify the console handler implementation and measure the board
+UART candidate. Read the [configuration/firmware decision](docs/tooling/configuration-and-firmware.md).
 The export is a settings backup, not a firmware image; custom firmware remains
 a later branch after image, layout, and recovery verification.
 
 
 ## Working layout
+
+Use one checkout: `/home/zacmero/projects/mero-mitrastar`, on `master`. The
+temporary `mero-mitrastar-docs` worktree has been removed. All documentation,
+photos, and ignored lab evidence live inside this project.
 
 ```text
 docs/hardware/       this unit's identity and observed capabilities
@@ -78,6 +84,7 @@ docs/tooling/        host topology and reproducible lab procedures
 docs/experiments/    dated results, evidence references, and negative findings
 docs/reference/     predecessor provenance and reusable techniques
 research/           external leads and verification status
+board_pictures/     original photo archive, reviewed JPEGs, index and hashes
 .local/             ignored raw captures, exports, archives, and build output
 ```
 
@@ -94,3 +101,5 @@ The merged configuration analysis is in [research/romfile-analysis.md](research/
 Latest software step: [MITRA-SSH-015](docs/experiments/mitra-ssh-015.md) confirms the native LAN SSH controls; restricted LAN SSH is enabled after owner authorization, and the `support` vendor console is accessible. Linux shell access remains unproven.
 
 Latest console inventory: [MITRA-CLI-016](docs/experiments/mitra-cli-016.md) documents read-only command usage, LAN4 link, br0, memory/CPU/NAT snapshots, and private TR-069/Wi-Fi status captures. Linux shell access remains unproven.
+
+Board archive: [17 photographs and visual findings](board_pictures/README.md). Original HEIC files remain local; metadata-stripped JPEG copies are tracked.

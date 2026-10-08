@@ -43,3 +43,5 @@ publishing its sensitive contents.
 Latest record: [MITRA-SSH-015 — native SSH management and vendor console](mitra-ssh-015.md).
 
 [MITRA-CLI-016 — read-only vendor console inventory](mitra-cli-016.md).
+
+[MITRA-BOARD-017 — board photo archive and visual identification](mitra-board-017.md).

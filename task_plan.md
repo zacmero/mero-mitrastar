@@ -161,7 +161,11 @@ marker-command test was submitted. See docs/experiments/network-software-004-008
 - [x] MITRA-SSH-015: read native SSH controls and identify handler, session key, client restriction, and rollback.
 - [x] Obtain explicit policy-change instruction; submit restricted LAN SSH and verify live page, Dropbear banner, and authenticated support vendor console.
 - [ ] Verify export freshness and saved-policy persistence; inventory supported read-only console commands.
-- [ ] Archive owner-planned board photographs tomorrow, with device power disconnected.
+- [x] Archive owner-supplied board photographs; acquisition power state was not independently observed.
 
 27. MITRA-CLI-016 — complete: read-only vendor command map and system/network snapshots.
 28. Pending: establish exact-build console/SSH/telnetd handler behavior through matching code or firmware; do not invoke unexplained flags.
+
+29. MITRA-BOARD-017 — complete: one canonical checkout, 17-photo archive/index/hash verification, visual part identification.
+- [x] Archive owner board photographs in this repo, preserving original HEIC bytes.
+- [ ] Measure UART candidate ground, logic voltage/activity, and pin assignments before adapter attachment.

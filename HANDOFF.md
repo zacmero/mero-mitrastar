@@ -1,3 +1,13 @@
+# Canonical workspace update
+
+Use `/home/zacmero/projects/mero-mitrastar` on `master`. The temporary
+`mero-mitrastar-docs` worktree was removed; older references to it below are
+historical. All 17 board photos are inside `board_pictures/`: original HEICs
+in ignored `originals/`, metadata-stripped JPEGs in `reviewed/`, and a hash
+manifest/index. Read [MITRA-BOARD-017](docs/experiments/mitra-board-017.md).
+MT7505N and MXIC 25L12835F markings are now observed on this unit. Header pinout,
+voltage, flash contents, runtime ABI, and Linux shell remain unverified.
+
 # MitraStar study handoff to Gemini
 
 ## Latest update — read before the original instructions

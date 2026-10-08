@@ -1,0 +1,138 @@
+[
+  {
+    "file": "IMG_8349.HEIC",
+    "bytes": 1941749,
+    "sha256": "d0b95b177721343955c2b5fb43c844140ca5c14950475d13a6172b45ea0fc077",
+    "original": "originals/IMG_8349.HEIC",
+    "reviewed": "reviewed/IMG_8349.jpg",
+    "reviewed_sha256": "bb8947ab54fe29745c737d87ccbb67b932434efa22da5d63a7070658b4d7be76"
+  },
+  {
+    "file": "IMG_8350.HEIC",
+    "bytes": 1723871,
+    "sha256": "bc52aed60eafff5a568e01b0dcace360d7b72bacb38c67405daac91e09e38e3a",
+    "original": "originals/IMG_8350.HEIC",
+    "reviewed": "reviewed/IMG_8350.jpg",
+    "reviewed_sha256": "e4c25ea78377e0ee4c59b9a0b4dcf498aa821df06f2e6f3e2942bdfa9ebd575e"
+  },
+  {
+    "file": "IMG_8351.HEIC",
+    "bytes": 1628692,
+    "sha256": "88e4458e75a5bb0896768047ccc6449744bbf246906b80467c114debf79e936b",
+    "original": "originals/IMG_8351.HEIC",
+    "reviewed": "reviewed/IMG_8351.jpg",
+    "reviewed_sha256": "296cb5ac34c84845c3244f503f1695ab4f79b6543a24e47094e0fc04f3328a97"
+  },
+  {
+    "file": "IMG_8352.HEIC",
+    "bytes": 1618144,
+    "sha256": "10087fe289c166a974ef89b0f3130590c72bab42cc79d707b7233cd662fe191f",
+    "original": "originals/IMG_8352.HEIC",
+    "reviewed": "reviewed/IMG_8352.jpg",
+    "reviewed_sha256": "7f076f2c2d24e85af2d3af82b5ac794542eca66a2d2d466e05b022e942583a28"
+  },
+  {
+    "file": "IMG_8353.HEIC",
+    "bytes": 1840040,
+    "sha256": "5454f496a643e3ed44cf1d00871dd5d657088d501ed0576969ebef18ad2d801f",
+    "original": "originals/IMG_8353.HEIC",
+    "reviewed": "reviewed/IMG_8353.jpg",
+    "reviewed_sha256": "af20ca0fbd971b2c584230ce3d98e505c144df156ebe62cd423c46a3c63e185f"
+  },
+  {
+    "file": "IMG_8354.HEIC",
+    "bytes": 1673133,
+    "sha256": "43e38ad49024f2c5b219634fdfc178f19bfc70b02879d662c5c7ae7385709d2c",
+    "original": "originals/IMG_8354.HEIC",
+    "reviewed": "reviewed/IMG_8354.jpg",
+    "reviewed_sha256": "dfc901df8cd03ff3adf32778c606e602c24b13821b635f0bc24d01445b515cc3"
+  },
+  {
+    "file": "IMG_8355.HEIC",
+    "bytes": 2051076,
+    "sha256": "d2a07ee600a6d5f4bd51c7336fe32451da2d211cb4edced158f95274fab34a44",
+    "original": "originals/IMG_8355.HEIC",
+    "reviewed": "reviewed/IMG_8355.jpg",
+    "reviewed_sha256": "b93aac87a89e306905a8cbab789a497f19d3e0778c85ee2aca66d0e15d660b3d"
+  },
+  {
+    "file": "IMG_8356.HEIC",
+    "bytes": 2324630,
+    "sha256": "93f609b2324b1b5ed1e0d393c35045e21e2557fe1f6a44c93e67414c2960cab6",
+    "original": "originals/IMG_8356.HEIC",
+    "reviewed": "reviewed/IMG_8356.jpg",
+    "reviewed_sha256": "b46139b01839f592f723cb1ca325d9f2e2d90fef8f852bfb9434c4afe875711f"
+  },
+  {
+    "file": "IMG_8357.HEIC",
+    "bytes": 2196626,
+    "sha256": "70af6feae2252f75bbaa49c2402a5245156005b53dd3bb649192200291b1637e",
+    "original": "originals/IMG_8357.HEIC",
+    "reviewed": "reviewed/IMG_8357.jpg",
+    "reviewed_sha256": "9eed097d8668e2201f50165f0368d1ff7043d5ffae32f71521cd1ba3b2b3e00e"
+  },
+  {
+    "file": "IMG_8358.HEIC",
+    "bytes": 2298418,
+    "sha256": "c5c49904aa396d9c42e6a2679067b0fe48a8675c05741872dc877e7b9b29b2a8",
+    "original": "originals/IMG_8358.HEIC",
+    "reviewed": "reviewed/IMG_8358.jpg",
+    "reviewed_sha256": "2fbb3b81f41158d06e8203cc77919410584208d3e55510bc3f6f887c438425c9"
+  },
+  {
+    "file": "IMG_8359.HEIC",
+    "bytes": 1942794,
+    "sha256": "c7b0f812f52dbf6f3aa88455ca366e221eed6709de2e8dea2e1360e5779a47e1",
+    "original": "originals/IMG_8359.HEIC",
+    "reviewed": "reviewed/IMG_8359.jpg",
+    "reviewed_sha256": "a7994ce36cdc1c6e8e5e8a7861223666f837a55e48ff8df3cccd143e5fa571d7"
+  },
+  {
+    "file": "IMG_8360.HEIC",
+    "bytes": 1851546,
+    "sha256": "5f0bd250668fb177d25e05e886781f525f6d18c637d682ba13c086a925b64094",
+    "original": "originals/IMG_8360.HEIC",
+    "reviewed": "reviewed/IMG_8360.jpg",
+    "reviewed_sha256": "61bc081a44864e24f2c0764d2ac89ffd58861c62ae2e261a16590637c5998967"
+  },
+  {
+    "file": "IMG_8361.HEIC",
+    "bytes": 1421689,
+    "sha256": "5335650f778ed4ad1ddd8a22f13a532787c243ea6fbcb1325f283f841457cb3a",
+    "original": "originals/IMG_8361.HEIC",
+    "reviewed": "reviewed/IMG_8361.jpg",
+    "reviewed_sha256": "df7cd9ff03e4f2c0e6d54b4d8a44619d1d42d26118129e8cb440843c6b75679e"
+  },
+  {
+    "file": "IMG_8362.HEIC",
+    "bytes": 1722380,
+    "sha256": "b5ffa4588a9229ab50ff578113c4fcdc4718e4d07c25ecd8b41d1dac8ae2b6fc",
+    "original": "originals/IMG_8362.HEIC",
+    "reviewed": "reviewed/IMG_8362.jpg",
+    "reviewed_sha256": "e2802951f6258f22cb75a6c3f491f848c88946905edcebb113390591bc9be870"
+  },
+  {
+    "file": "IMG_8363.HEIC",
+    "bytes": 2046841,
+    "sha256": "9474f195747944fee924b48a2e95e220b9f0c310d54eafb6920b381dfc49ee1f",
+    "original": "originals/IMG_8363.HEIC",
+    "reviewed": "reviewed/IMG_8363.jpg",
+    "reviewed_sha256": "832ac2f87ef76d07caf62e89dc801d8d2de0d1ef72e338fa3db09bc964eb6c62"
+  },
+  {
+    "file": "IMG_8364.HEIC",
+    "bytes": 2138617,
+    "sha256": "85d180deda55c1d19da26aa57fc66738e60a1e40025d149771589a1927b6b9f2",
+    "original": "originals/IMG_8364.HEIC",
+    "reviewed": "reviewed/IMG_8364.jpg",
+    "reviewed_sha256": "62757907ac2b3b28fcd7548bce79554238c68704e7e52e8ab76c6598cf94fb21"
+  },
+  {
+    "file": "IMG_8365.HEIC",
+    "bytes": 1478193,
+    "sha256": "4f845523ab285e2f7af24a0e0190810ae9aa8bc368e241bd31d402f91c783da1",
+    "original": "originals/IMG_8365.HEIC",
+    "reviewed": "reviewed/IMG_8365.jpg",
+    "reviewed_sha256": "027bef81373a54b9cee5fa59aec758749f5fee841bc9eaae878750f2bde36b88"
+  }
+]

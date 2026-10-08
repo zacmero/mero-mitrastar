@@ -7,7 +7,8 @@ Last source check: 2026-10-07. This page is designed for terminal access and pre
 - Model: MitraStar DSL-100HN-T1-NV (Vivo).
 - UI-reported firmware: `BR_SA_113WUK0b15`; hardware identifier: `tmp_hardware1.0`.
 - Its web UI and direct laptop-to-router Ethernet link were reached successfully.
-- **Not yet independently verified on our board:** SoC, SPI chip marking, RAM, UART pinout/voltage, Linux version, bootloader version, root shell, executable ABI. Other people's reports below are **leads, not our measurements**.
+- **Now photographed on this board:** MT7505N and MXIC 25L12835F package markings; see MITRA-BOARD-017.
+- **Still unverified:** physical RAM capacity, UART pinout/voltage, Linux version, bootloader version, root shell, executable ABI. Other people's runtime reports below are **leads, not our measurements**.
 - Avoid including admin credentials, router IDs, raw configurations or flash dumps in this public repository.
 
 ## Primary exact-model references — start here
@@ -54,3 +55,7 @@ rtk rg 'https?://' research/mitrastar-leads.md
 ## Provenance/history note
 
 An earlier 2026-10-07 version of this file recorded a failed attempt by another agent to retrieve original sources. Exact original URLs are now supplied above, and the accessible articles/forum pages were checked independently on 2026-10-07. These published references remain external-unit evidence; they are **not proof** that our `BR_SA_113WUK0b15` unit has the same hardware or firmware. Continue to record first-hand evidence in `findings.md` and `docs/experiments/`.
+
+## Update: this board photographed
+
+[MITRA-BOARD-017](../docs/experiments/mitra-board-017.md) now observes MT7505N and MXIC 25L12835F markings directly on this unit. This resolves the earlier lack of package photographs; runtime architecture/kernel/ABI and UART pinout remain unverified. Other-unit chip variants listed above remain external evidence.

@@ -260,3 +260,11 @@
 - Preserved private captures and recorded SHA-256 values; credential-bearing output is excluded from public summaries.
 - No settings or services changed; no reset, reboot, save, or firmware write. All console sessions ended.
 - Remaining: determine telnetd flag/console handler implementation; Linux shell, ABI, and SSH persistence remain unverified.
+
+# Workspace consolidation and MITRA-BOARD-017
+
+- Owner requested one organized project. Verified the temporary docs worktree was clean at the same commit as canonical master, contained no remaining photos/local evidence, and removed it without force.
+- Canonical checkout is now solely /home/zacmero/projects/mero-mitrastar.
+- Organized all 17 originals under board_pictures/originals, verified unchanged hashes, and generated metadata-stripped JPEG review copies with a manifest/index.
+- Visually identified MT7505N, MT7592N, MT7583N and MXIC 25L12835F markings; checked flash density against the manufacturer datasheet. Documented the populated header as a candidate, not a verified pinout.
+- No device/network test or persistent router change performed.

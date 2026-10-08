@@ -79,7 +79,9 @@ remotely because RTK is not installed on the laptop.
 
 ## Still unknown for this unit
 
-- SoC marking, PCB revision, RAM, SPI flash model/capacity, UART layout/levels.
+- Full package suffixes, PCB revision mapping, physical RAM, measured flash
+  contents/partitioning, and UART function/pinout/levels. Photos now identify
+  MT7505N and MXIC 25L12835F markings; see the photographic inventory below.
 - Kernel version, CPU details, ELF byte order/ABI, libc, dynamic loader.
 - Full DHCP configuration, services beyond the short TCP baseline, shell access.
 - Root filesystem, writable storage, flash partition map, recovery procedure.
@@ -91,3 +93,14 @@ Authenticated management inventory is complete. It exposes diagnostics but no
 visible shell control. The next step is the access investigation.
 Board photographs are conditional on network findings; opening is not required
 for the first session.
+
+
+## Photographic inventory — MITRA-BOARD-017
+
+[Owner photographs](../../board_pictures/README.md) now show MediaTek MT7505N,
+MT7592N, MT7583N, and MXIC 25L12835F markings. The matched Macronix flash
+specification is 128 Mbit / 16 MiB; contents and partition map are unmeasured.
+A five-position header with four populated pins sits beside processor and
+flash. Its UART role is a hypothesis pending electrical measurements.
+See [MITRA-BOARD-017](../experiments/mitra-board-017.md) for exact photos,
+manufacturer source, confidence limits, and measurement order.
