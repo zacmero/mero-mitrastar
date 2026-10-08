@@ -71,9 +71,21 @@ that sequence before deciding whether the hardware branch is necessary.
 
 [The first round](docs/experiments/network-software-004-008.md) completed full
 TCP coverage, initial UDP checks, authenticated reference mapping, four bounded
-Ping variants, and two LAN captures. Ping option parsing is confirmed; general
-command execution is not. WAN traffic and exact firmware remain unresolved.
-The owner requested documentation before further testing or agent handoff.
+Ping variants, and two LAN captures. Follow-up experiments [MITRA-DIAG-009](docs/experiments/mitra-diag-009.md),
+[MITRA-PASSIVE-010](docs/experiments/mitra-passive-010.md), and [MITRA-RES-011](docs/experiments/mitra-res-011.md)
+completed the remaining sequence:
+- TCP 161 confirmed timeout at 2.0s;
+- Command punctuation (';') yielded empty output (no execution demonstrated);
+- Undisturbed 30s capture identified autonomous IPv6 Router Advertisements with RDNSS;
+- 63 UI paths and 603 localization strings audited in Sophia interface;
+- Stage 5 ([MITRA-FW-012](docs/experiments/mitra-fw-012.md)) analyzed firmware sources and CVE-2017-16522, noting port 22 is closed;
+- [MITRA-IPV6-013](docs/experiments/mitra-ipv6-013.md) probed link-local IPv6 management ports, confirming only port 80 is open while port 7547 is refused (RST) and ports 21, 22, 23, and 443 remain filtered;
+- [MITRA-BACKUP-014](docs/experiments/mitra-backup-014.md) discovered legacy configurator at `/padrao`, authenticated user `support`, exported `romfile.cfg`, and confirmed internal ACL table directly disabling Telnet, SSH, FTP, and SNMP daemons.
+With the software management architecture and configuration structure thoroughly analyzed, hardware documentation (motherboard photographs, chip identification, UART pinout) is justified as the next primary evidence source.
+
+
+
+
 
 Diagnostic baseline completed; see [the result](docs/experiments/mitra-access-003.md).
 Ping and TraceRoute reached loopback; DNS lookup completed with an unresolved

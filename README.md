@@ -44,8 +44,25 @@ The [network/software plan](docs/tooling/network-software-plan.md) records the
 methodical follow-ups. [First-round results](docs/experiments/network-software-004-008.md)
 cover all TCP ports, UDP checks, resource mapping, supplied ping options, and
 LAN captures. Only TCP 80 accepted connections; UDP DNS replied with REFUSED.
-The destination field accepts ping options, but general command execution and
-shell access remain unproven.
+[MITRA-DIAG-009](docs/experiments/mitra-diag-009.md) records the TCP 161 timeout
+recheck and the bounded command-punctuation comparison. Semicolon input returned empty output;
+no command execution was demonstrated.
+[MITRA-PASSIVE-010](docs/experiments/mitra-passive-010.md) records the clean 30-second
+idle capture, discovering autonomous IPv6 Router Advertisements with recursive DNS,
+and single HTTP action attribution.
+[MITRA-RES-011](docs/experiments/mitra-res-011.md) inventories 63 referenced UI paths,
+confirming no backup, export, or firmware-upload facilities in the captured interface.
+[MITRA-FW-012](docs/experiments/mitra-fw-012.md) analyzes firmware and vulnerability sources,
+noting no exact-build firmware/GPL located in queried portals and that published SSH vectors
+are blocked by closed port 22 on this unit.
+[MITRA-IPV6-013](docs/experiments/mitra-ipv6-013.md) measures IPv6 link-local management
+ports, confirming only port 80 is open while port 7547 is actively refused (RST) and
+ports 21, 22, 23, and 443 remain filtered.
+[MITRA-BACKUP-014](docs/experiments/mitra-backup-014.md) discovers the legacy configurator
+at `/padrao`, authenticates administrative user `support`, exports the router configuration
+`romfile.cfg`, and confirms through the internal ACL that Telnet, SSH, FTP, and SNMP daemons
+exist in firmware but have their listening interfaces explicitly set to `Disable`.
+
 
 ## Working layout
 

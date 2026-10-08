@@ -139,3 +139,16 @@ marker-command test was submitted. See docs/experiments/network-software-004-008
     HANDOFF.md prepared with access/restoration procedures, evidence, next tests,
     interpretation criteria, and private local prerequisites. The owner will
     instruct Gemini directly. No new device testing or Herdr prompt was issued.
+19. MITRA-DIAG-009: TCP 161 recheck and command-punctuation comparison — complete;
+    TCP 161 confirmed timeout at 2.0s; '127.0.0.1; printf ...' returned empty
+    output (no marker, no command execution). Baseline ping confirmed functional.
+20. MITRA-PASSIVE-010: clean 30-second idle capture and action attribution — complete;
+    autonomous IPv6 Router Advertisement (RDNSS) discovered; zero WAN leakage on LAN.
+21. MITRA-RES-011: offline resource and handler inventory — complete; 63 paths and
+    603 strings audited; confirmed absence of backup/export or firmware upload facilities.
+22. MITRA-FW-012: Firmware and vulnerability research — complete; no exact-build
+    firmware/GPL located; CVE-2017-16522 SSH route verified inapplicable (port 22 closed).
+23. MITRA-IPV6-013: IPv6 link-local management port check — complete; only port 80 open;
+    port 7547 actively refused (RST); ports 21, 22, 23, and 443 remain filtered.
+24. MITRA-BACKUP-014: Legacy configurator, support authentication, and romfile export — complete;
+    authenticated user 'support', downloaded romfile.cfg (93,315 bytes), confirmed internal ACL.

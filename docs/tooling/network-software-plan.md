@@ -105,15 +105,13 @@ Never override household DNS or redirect ISP traffic as an exploratory shortcut.
 
 ## Status
 
-| Stage | Status |
-| --- | --- |
-| Services | Full TCP scan and initial UDP checks complete; longer TCP 161 check pending |
-| Web resources | Nine pages/six scripts retrieved; 55 candidate references mapped |
-| Diagnostic backend | Supplied ping options confirmed; command-punctuation comparison not run |
-| Outbound capture | Two bounded LAN samples complete; actual WAN path remains unobserved |
-| Exact firmware | Initial official-homepage check complete; no exact-build image acquired |
+| Stage | Status | Experiment |
+| --- | --- | --- |
+| Services | Full TCP scan, UDP checks, 2.0s TCP 161 recheck, and link-local IPv6 scan complete; only port 80 open | [MITRA-SERVICES-004](../experiments/network-software-004-008.md), [MITRA-DIAG-009](../experiments/mitra-diag-009.md), [MITRA-IPV6-013](../experiments/mitra-ipv6-013.md) |
+| Web resources | 63 Sophia paths audited; legacy configurator at `/padrao` discovered; `romfile.cfg` exported | [MITRA-WEB-005](../experiments/network-software-004-008.md), [MITRA-RES-011](../experiments/mitra-res-011.md), [MITRA-BACKUP-014](../experiments/mitra-backup-014.md) |
 
-See the [first-round results](../experiments/network-software-004-008.md) for
-measurements, evidence hashes, and unresolved questions. The owner subsequently
-stopped Codex device testing and requested documentation first. No instruction
-was sent to Gemini. Resume testing only through the owner's chosen agent/route.
+| Diagnostic backend | Supplied ping options parsed; command punctuation (`;`) yielded empty output (no execution demonstrated) | [MITRA-DIAG-006](../experiments/network-software-004-008.md), [MITRA-DIAG-009](../experiments/mitra-diag-009.md) |
+| Outbound capture | Clean 30s idle and action captures complete; IPv6 RA with RDNSS observed; zero WAN leakage on LAN | [MITRA-PASSIVE-007](../experiments/network-software-004-008.md), [MITRA-PASSIVE-010](../experiments/mitra-passive-010.md) |
+| Exact firmware | No exact-build firmware/GPL located in queried sources; CVE-2017-16522 SSH route blocked by closed port 22 | [MITRA-FW-008](../experiments/network-software-004-008.md), [MITRA-FW-012](../experiments/mitra-fw-012.md) |
+
+The network and software investigation characterized the exposed surface: only port 80 is listening over IPv4 and IPv6, the captured UI contains no backup/firmware controls, and diagnostic command execution remains unproven. Hardware documentation and board photography are justified as the next primary evidence source.
