@@ -152,3 +152,83 @@
   from tracked documents and command arguments. This is local-only handoff data.
 - Added README entry and linked first-round documentation. The owner will
   instruct Gemini directly; no agent message or additional device test was sent.
+# MITRA-DIAG-009 — TCP 161 and diagnostic comparison — 2026-10-08 UTC
+
+- Verified host topology and router neighbor MAC over Wi-Fi SSH.
+- Rechecked TCP port 161 with a 2.0-second deadline; connection timed out at 2.002s.
+- Started local SOCKS SSH tunnel on port 1088 and headless Chromium on port 9228.
+- Authenticated browser session using active challenge-response flow with
+  credentials from ignored local handoff record.
+- Executed baseline loopback ping via authenticated POST to confirm handler.
+- Submitted planned bounded comparison ('127.0.0.1; printf MITRA_STUDY_MARKER_20261008')
+  with session key. POST and result CGI returned HTTP 200, but InfoDisplay textarea
+  was empty; marker was not found and command execution was not demonstrated.
+- Inspected syslog endpoint; no entries observed.
+- Cleanly terminated dedicated Chromium, removed temporary browser profile, and
+  stopped SOCKS tunnel. Verified ports 1088 and 9228 closed.
+- Verified router HTTP 200 responsiveness and laptop SSH connectivity.
+- Wrote docs/experiments/mitra-diag-009.md and saved private evidence under
+  .local/captures/mitra-diag-009/ with SHA-256 hash.
+# MITRA-PASSIVE-010 — Passive captures and action attribution — 2026-10-08 UTC
+
+- Collected undisturbed 30-second LAN capture on enp6s0 using bounded sudo tcpdump.
+- Parsed packet flow: identified autonomous ICMPv6 Router Advertisement with RDNSS
+  pointing to fe80::aec6:62ff:fe8d:9978; confirmed router acts as IPv6 DNS forwarder.
+- Verified that no autonomous WAN traffic leaks onto the LAN Ethernet link during idle.
+- Captured single HTTP GET transaction for about-power-box.html with 79 packets,
+  attributing request/response flow.
+- Saved raw pcaps and metadata under .local/captures/mitra-passive-010/; wrote
+  docs/experiments/mitra-passive-010.md with artifact hashes.
+
+# MITRA-RES-011 — Offline resource map and handler inventory — 2026-10-08 UTC
+
+- Completed systematic offline audit of 63 unique paths across 9 protected views.
+- Verified absence of backup/export and firmware upload controls in the UI.
+- Audited 603 localization strings in Multi_Language_sophia.js; confirmed zero
+  shell/Telnet/SSH/USB configuration strings.
+- Wrote docs/experiments/mitra-res-011.md.
+
+# MITRA-FW-012 — Firmware and vulnerability source research — 2026-10-08 UTC
+
+- Searched vendor and carrier sources; no exact-build firmware or GPL release located.
+- Reviewed CVE-2017-16522 (Exploit-DB 43061), reported for Spanish Movistar firmware
+  with reachable SSH. Port 22 timed out on this unit over IPv4 and IPv6; applicability
+  to this build is unproven. MITRA-BACKUP-014 later identified an SSH configuration lead.
+- Correlated external physical research demonstrating SPI flash extraction and UART
+  console interaction; those examples do not establish that hardware is our only route.
+- Wrote docs/experiments/mitra-fw-012.md.
+
+# MITRA-IPV6-013 — IPv6 link-local management port check — 2026-10-08 UTC
+
+- Probed router link-local address fe80::aec6:62ff:fe8d:9978%enp6s0 across ports 21, 22,
+  23, 80, 443, 7547, 8080, and 8443 with 2.0s timeouts.
+- Confirmed only TCP port 80 is OPEN (Boa HTTP/1.0 200 OK).
+- Discovered port 7547 is actively REFUSED (TCP RST), unlike IPv4 where it timed out.
+  Ports 8080 and 8443 also REFUSED; ports 21, 22, 23, and 443 timed out (filtered).
+- Saved artifact in .local/captures/mitra-ipv6-013/; wrote docs/experiments/mitra-ipv6-013.md.
+
+# MITRA-BACKUP-014 — Legacy configurator and romfile.cfg export — 2026-10-08 UTC
+
+- Probed /padrao and discovered unreferenced generic ZyXEL configurator at /cgi-bin/login.html.
+- Identified 698 KB Multi_Language.js with full maintenance and backup functionality.
+- Authenticated user 'support' with label password via /cgi-bin/index.asp challenge-response.
+- Invoked ConfigFilter.cgi and successfully exported /romfile.cfg (93,315 bytes, SHA-256 c903943d...).
+- Inspected vendor configuration fields: found P660HNT1Av2 as a source lead and the internal ACL table explicitly
+  disabling Telnet (23), FTP (21), SNMP (161), and SSH (22) on LAN.
+- Saved export in .local/exports/1791432359/; wrote docs/experiments/mitra-backup-014.md.
+# Review and publication — 2026-10-08 UTC
+
+- Read experiments 009–014 and the updated status documents. Verified all six
+  referenced artifact hashes and independently inspected allowlisted export
+  ACL/account metadata without printing credential values.
+- Corrected scope and inference: IPv6 covered eight ports; empty marker output
+  demonstrates no execution; Sophia absence claims exclude the legacy interface;
+  service configuration is not proof of running daemons; settings are not firmware.
+- Recorded native-configuration-first route and firmware prerequisites. No
+  live device test, service activation, restore, or firmware write was performed.
+- The other agent switched the shared checkout to romfile-analysis and committed
+  its work. Created a separate master worktree at mero-mitrastar-docs and imported
+  only reviewed documentation from 53b46e0. Its raw research/romfile.cfg is not
+  included in this documentation publication; the other branch was left intact.
+- Updated handoff and roadmap to the legacy SSH configuration lead. The owner
+  requested committing/pushing these reviewed discoveries on the current docs route.

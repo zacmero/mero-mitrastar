@@ -71,10 +71,23 @@ that sequence before deciding whether the hardware branch is necessary.
 
 [The first round](docs/experiments/network-software-004-008.md) completed full
 TCP coverage, initial UDP checks, authenticated reference mapping, four bounded
-Ping variants, and two LAN captures. Ping option parsing is confirmed; general
-command execution is not. WAN traffic and exact firmware remain unresolved.
-The owner requested documentation before further testing or agent handoff.
+Ping variants, and two LAN captures. Follow-up experiments [MITRA-DIAG-009](docs/experiments/mitra-diag-009.md),
+[MITRA-PASSIVE-010](docs/experiments/mitra-passive-010.md), and [MITRA-RES-011](docs/experiments/mitra-res-011.md)
+added these measurements and discoveries:
 
+- TCP 161 confirmed timeout at 2.0s;
+- Command punctuation (';') yielded empty output (no execution demonstrated);
+- Undisturbed 30s capture identified autonomous IPv6 Router Advertisements with RDNSS;
+- 63 UI paths and 603 localization strings audited in Sophia interface;
+- Stage 5 ([MITRA-FW-012](docs/experiments/mitra-fw-012.md)) recorded a firmware-source gap and historical CVE comparison; exact-build implementation remains unavailable;
+- [MITRA-IPV6-013](docs/experiments/mitra-ipv6-013.md) found port 80 open among eight tested link-local IPv6 ports, port 7547 refused, and ports 21, 22, 23, and 443 timed out;
+- [MITRA-BACKUP-014](docs/experiments/mitra-backup-014.md) discovered `/padrao`, authenticated `support`, exported settings, and found SSH/Telnet/FTP/SNMP/HTTPS/TR64 interfaces configured as disabled.
+
+The software route remains open. Prioritize [MITRA-SSH-015](docs/tooling/configuration-and-firmware.md):
+read the legacy SSH management view and prepare a single LAN-only change with
+rollback before any apply. No service change or firmware write has been submitted.
+The settings export is not a firmware backup; running daemons and privileges
+remain unconfirmed. Board photographs can independently document hardware.
 Diagnostic baseline completed; see [the result](docs/experiments/mitra-access-003.md).
 Ping and TraceRoute reached loopback; DNS lookup completed with an unresolved
 local name. Frontend validation was inspected without submitting malformed

@@ -44,8 +44,31 @@ The [network/software plan](docs/tooling/network-software-plan.md) records the
 methodical follow-ups. [First-round results](docs/experiments/network-software-004-008.md)
 cover all TCP ports, UDP checks, resource mapping, supplied ping options, and
 LAN captures. Only TCP 80 accepted connections; UDP DNS replied with REFUSED.
-The destination field accepts ping options, but general command execution and
-shell access remain unproven.
+[MITRA-DIAG-009](docs/experiments/mitra-diag-009.md) records the TCP 161 timeout
+recheck and the bounded command-punctuation comparison. Semicolon input returned empty output;
+no command execution was demonstrated.
+[MITRA-PASSIVE-010](docs/experiments/mitra-passive-010.md) records the clean 30-second
+idle capture, discovering autonomous IPv6 Router Advertisements with recursive DNS,
+and single HTTP action attribution.
+[MITRA-RES-011](docs/experiments/mitra-res-011.md) inventories 63 referenced UI paths,
+confirming no backup, export, or firmware-upload facilities in the captured interface.
+[MITRA-FW-012](docs/experiments/mitra-fw-012.md) analyzes firmware and vulnerability sources,
+noting no exact-build firmware/GPL located in the recorded search and no demonstrated
+applicability of the historical Spanish-firmware SSH behavior.
+[MITRA-IPV6-013](docs/experiments/mitra-ipv6-013.md) measures IPv6 link-local management
+ports, finding port 80 open among eight tested ports, port 7547 refused, and
+ports 21, 22, 23, and 443 timed out.
+[MITRA-BACKUP-014](docs/experiments/mitra-backup-014.md) discovers the legacy configurator
+at `/padrao`, authenticates administrative user `support`, exports the router configuration
+`romfile.cfg`, and confirms configuration entries for Telnet, SSH, FTP, SNMP, HTTPS,
+and TR64 with interfaces set to `Disable`. Running daemons and shell privileges
+remain unverified. This discovery provides a concrete software lead.
+
+Next: inspect the legacy SSH management controls and prepare a bounded LAN-only
+change with rollback. Read the [configuration/firmware decision](docs/tooling/configuration-and-firmware.md).
+The export is a settings backup, not a firmware image; custom firmware remains
+a later branch after image, layout, and recovery verification.
+
 
 ## Working layout
 

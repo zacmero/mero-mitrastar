@@ -151,3 +151,114 @@ No exact-build image/source was obtained in the initial vendor-homepage check.
 The owner stopped Codex device tests and requested documentation before handoff.
 No message was sent to Gemini. Detailed measurements and evidence hashes:
 docs/experiments/network-software-004-008.md.
+
+# MITRA-DIAG-009 — TCP 161 recheck and diagnostic punctuation comparison
+
+- Rechecked TCP 161 with a dedicated 2.0-second timeout; connection timed out
+  after 2.002 seconds. All seven candidate timed-out ports from the full scan
+  (21, 22, 23, 53, 161, 443, 7547) now have confirmed 2.0-second timeouts.
+- Dedicated browser session reauthenticated cleanly via Mero Browser and SOCKS
+  tunnel using the active challenge-response login flow.
+- Baseline loopback ping (127.0.0.1, count 1) succeeded with 56 data bytes,
+  1/1 packets received, 0% packet loss, 0.777 ms, confirming the handler and
+  result polling mechanism.
+- Planned marker test ('127.0.0.1; printf MITRA_STUDY_MARKER_20261008', count 1)
+  submitted directly via authenticated POST to device-management-utilities-internet.asp.
+  The POST returned HTTP 200 (2 bytes) and the result CGI returned HTTP 200, but
+  the InfoDisplay textarea was completely empty.
+- Marker was not found; no command execution was demonstrated. Empty output does not
+  distinguish backend input validation, process invocation failure, or output handling.
+- Syslog view (/cgi-bin/gvt_viewsyslog.cgi) showed no log entries.
+- Router HTTP responsiveness (status 200) and SSH connectivity verified after test.
+- Automation browser, temporary profile, and SOCKS tunnel cleanly stopped.
+- Evidence saved privately in .local/captures/mitra-diag-009/ (SHA-256
+  c54f015f13a87b478c92eaf25de0ff2e23edcefb0300b21d26e61e09bde626aa); reviewed
+  record is docs/experiments/mitra-diag-009.md.
+
+# MITRA-PASSIVE-010 — Clean idle capture and action attribution
+
+- Clean 30-second undisturbed LAN capture on enp6s0 recorded 13 packets (0 kernel drops).
+- Discovered autonomous router-originated ICMPv6 Router Advertisement: sent from
+  fe80::aec6:62ff:fe8d:9978 to ff02::1, lifetime 180s, cur_hop 64, Option 25 (RDNSS)
+  advertising fe80::aec6:62ff:fe8d:9978 as recursive DNS server.
+- Router responds to IPv6 DNS queries with REFUSED (rcode=5), matching its IPv4 behavior.
+- Zero autonomous WAN/provisioning or TR-069 requests leak onto the switched LAN port during idle.
+- Single-action HTTP capture (79 packets, 0 kernel drops) cleanly attributed request from
+  laptop 192.168.15.3:50082 to router 192.168.15.1:80 for about-power-box.html (HTTP 200, 12,708 bytes).
+- Evidence saved in .local/captures/mitra-passive-010/ (pcap SHA-256 e51c8135c3a0... and
+  366d0054ba51...); reviewed record is docs/experiments/mitra-passive-010.md.
+
+# MITRA-RES-011 — Offline resource and handler inventory
+
+- Complete offline audit of 63 unique paths across 9 protected views and static assets.
+- System log view (/cgi-bin/html_sophia/device-management-system-logs.html) supports 7 categories
+  and 9 levels via device-management-system-logs.asp, polling gvt_viewsyslog.cgi.
+- HPNA subsystem in utilities page contains netper_delete.cgi, netper_kill.cgi, result_netinf.cgi,
+  and result_netper_wizard.cgi, with client-side eval referencing /tmp/hpna_netinf.log (guarded
+  by "HPNAInterface is not ready").
+- Operation mode supports Router (0) and Bridge (1); commented code references ADSL/VDSL.
+  No LAN-to-Ethernet-WAN option was observed in the captured Sophia view.
+- Complete audit of 603 localization strings in Multi_Language_sophia.js (112 KB) confirms zero
+  administrative references to Telnet, SSH, shell, USB storage, backup, or file uploads.
+- The captured web interface has no configuration export/backup or firmware-upload functionality.
+  This covers the captured interface; unreferenced server-side handlers cannot be ruled out.
+- Reviewed record is docs/experiments/mitra-res-011.md.
+
+# MITRA-FW-012 — Firmware and vulnerability source investigation
+
+- No exact-build firmware image or GPL source archive for DSL-100HN-T1-NV and build
+  BR_SA_113WUK0b15 was located in queried vendor or carrier portals.
+- Research identified historical CVE-2017-16522 / CVE-2017-16523 (Exploit-DB 43061) affecting
+  Spanish Movistar firmware (ES_113WJY0b16), where SSH was open on port 22 and permitted root shell
+  escape. On this Brazilian Vivo unit (BR_SA_113WUK0b15), TCP port 22 timed out over both
+  IPv4 and IPv6 under the measured profile. The historical route was not reached; later
+  configuration evidence in MITRA-BACKUP-014 provides a separate SSH management lead.
+- External physical research on exact-model units (Maycon Vitali, Luiz Boina) establishes
+  examples of firmware extraction and console access through hardware: 16 MB SPI Flash
+  (MX25L12805D / MX25L12835F) read via CH341A/BusPirate, or UART serial console at 115200 baud
+  (3.3V logic level) to access U-Boot.
+- Reviewed record is docs/experiments/mitra-fw-012.md.
+
+# MITRA-IPV6-013 — IPv6 link-local management port check
+
+- Probed router link-local address fe80::aec6:62ff:fe8d:9978%enp6s0 across ports 21, 22, 23, 80,
+  443, 7547, 8080, and 8443 with 2.0-second deadlines from the laptop.
+- Only TCP port 80 is OPEN (Boa HTTP/1.0 200 OK).
+- Ports 7547, 8080, and 8443 are actively REFUSED (immediate TCP RST). Port 7547 differed from
+  IPv4 where it timed out.
+- Ports 21, 22, 23, and 443 timed out (filtered), matching IPv4.
+- Raw artifact saved under .local/captures/mitra-ipv6-013/ (SHA-256 b275fdb7514c9a8ac8042be3a4d9eafdf7d4b1bf0592d6a27caddcdd551578ee);
+  reviewed record is docs/experiments/mitra-ipv6-013.md.
+
+# MITRA-BACKUP-014 — Legacy configurator, support authentication, and romfile.cfg export
+
+- Identified unreferenced generic ZyXEL configurator at /padrao redirecting to /cgi-bin/login.html.
+- Discovered 698 KB Multi_Language.js defining full ZyXEL backup/restore and maintenance facilities.
+- Confirmed user 'support' with router label password authenticates successfully to /cgi-bin/index.asp.
+- Accessed /cgi-bin/pages/maintenance/backupRestore/backupRestore.html and invoked ConfigFilter.cgi.
+- Successfully downloaded /romfile.cfg: unencrypted XML format, 93,315 bytes, SHA-256
+  c903943d9f2522263d45de1226d39b6c95b01ba3ad88539039a27a3ef40a85bf, saved in .local/exports/1791432359/.
+- Exported settings contain P660HNT1Av2 and firmware.mitrastar.com.tr; these are source leads, not verified physical-platform identity or image compatibility.
+- ACL table explicitly accounts for all service states: Web (port 80) active on LAN, while Telnet (23),
+  FTP (21), SNMP (161), and SSH (22) are set to Interface="Disable".
+- Reviewed record is docs/experiments/mitra-backup-014.md.
+# Review of experiments 009–014 — 2026-10-08 UTC
+
+Legacy configurator/support authentication and a settings export provide a new
+software route. Independently verified export: 93,315 bytes, SHA-256
+c903943d9f2522263d45de1226d39b6c95b01ba3ad88539039a27a3ef40a85bf.
+ACL entries for SSH/Telnet/FTP/SNMP/HTTPS/TR64 have Interface=Disable;
+TFTPD is inactive/disabled, while Web/Web2 and DNS/Ping are configured for LAN.
+These values fit measured reachability but do not prove running daemon binaries.
+
+The export is settings, not firmware/flash. Standard XML parsing fails on the
+raw document; preserve bytes and prefer the native understood management UI
+over generic XML editing/restoration. Platform/download strings remain leads.
+Separate encrypted web and console credential fields do not prove shared
+passwords. No service setting or firmware was changed during review.
+
+Next: inspect the legacy SSH management page, understand apply/rollback, and
+prepare one isolated LAN-only service change. See
+docs/tooling/configuration-and-firmware.md. Hardware photos remain useful but
+the software route is not exhausted. Eight IPv6 ports were checked, not all
+ports; no marker was demonstrated, not a general proof of rejected commands.

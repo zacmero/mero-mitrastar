@@ -139,3 +139,23 @@ marker-command test was submitted. See docs/experiments/network-software-004-008
     HANDOFF.md prepared with access/restoration procedures, evidence, next tests,
     interpretation criteria, and private local prerequisites. The owner will
     instruct Gemini directly. No new device testing or Herdr prompt was issued.
+19. MITRA-DIAG-009: TCP 161 recheck and command-punctuation comparison — complete;
+    TCP 161 confirmed timeout at 2.0s; '127.0.0.1; printf ...' returned empty
+    output (no execution demonstrated). Baseline ping confirmed functional.
+20. MITRA-PASSIVE-010: clean 30-second idle capture and action attribution — complete;
+    autonomous IPv6 Router Advertisement/RDNSS discovered; no provisioning request in the observed interval.
+21. MITRA-RES-011: offline resource and handler inventory — complete; 63 paths and
+    603 strings audited in Sophia; absence there did not cover the later-discovered legacy interface.
+22. MITRA-FW-012: Firmware and vulnerability research — complete; no exact-build
+    firmware/GPL acquired; historical SSH route not reached, build applicability untested.
+23. MITRA-IPV6-013: eight IPv6 link-local ports checked — complete; only port 80 open among those;
+    port 7547 actively refused (RST); ports 21, 22, 23, and 443 remain filtered.
+24. MITRA-BACKUP-014: Legacy configurator, support authentication, and romfile export — complete;
+    authenticated user 'support', downloaded romfile.cfg (93,315 bytes), confirmed internal ACL.
+
+25. Review/publication of experiments 009–014 — complete documentation prepared;
+    export hash/ACL fields verified, scope/daemon/firmware claims corrected.
+    Separate master worktree used because the other agent is on romfile-analysis.
+26. MITRA-SSH-015 — pending: inspect legacy SSH view and prepare one LAN-only
+    configuration change with rollback. No apply or firmware write is part of
+    this review/publication instruction. See docs/tooling/configuration-and-firmware.md.

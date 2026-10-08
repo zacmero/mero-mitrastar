@@ -1,5 +1,29 @@
 # MitraStar study handoff to Gemini
 
+## Latest update — read before the original instructions
+
+Gemini completed experiments 009–014. The semicolon comparison yielded no
+marker, eight IPv6 ports were checked, and the legacy configurator was found at
+`/padrao`. User `support` authenticated and exported `romfile.cfg`. The export
+contains disabled SSH/Telnet/FTP/SNMP/HTTPS/TR64 access entries; it is not a
+firmware image or proof of running daemons. Do not repeat the original marker
+test merely because the older instructions below call it pending.
+
+The next lead is the legacy SSH management page and an understood LAN-only
+configuration change, not mandatory firmware rewriting. Read
+[MITRA-BACKUP-014](docs/experiments/mitra-backup-014.md) and the
+[configuration/firmware decision](docs/tooling/configuration-and-firmware.md).
+Inspect controls first; no service activation, restore, or flash write is
+authorized by the documentation-publication request.
+
+The original session-restoration instructions below describe the earlier
+handoff. Recheck local listeners and current sessions before launching helpers;
+the other agent may have its own active session. Its ongoing analysis branch is
+`romfile-analysis`; this reviewed documentation is published separately on master.
+Private artifacts remain in the original workspace's `.local` directories.
+
+## Original handoff — retained as dated context
+
 Prepared 2026-10-08 UTC. Workspace: `/home/zacmero/projects/mero-mitrastar`.
 The owner will give Gemini this file directly. No task was sent through Herdr.
 Codex has stopped device testing and will interpret subsequent results.

@@ -105,15 +105,17 @@ Never override household DNS or redirect ISP traffic as an exploratory shortcut.
 
 ## Status
 
-| Stage | Status |
-| --- | --- |
-| Services | Full TCP scan and initial UDP checks complete; longer TCP 161 check pending |
-| Web resources | Nine pages/six scripts retrieved; 55 candidate references mapped |
-| Diagnostic backend | Supplied ping options confirmed; command-punctuation comparison not run |
-| Outbound capture | Two bounded LAN samples complete; actual WAN path remains unobserved |
-| Exact firmware | Initial official-homepage check complete; no exact-build image acquired |
+| Stage | Status | Experiment |
+| --- | --- | --- |
+| Services | Full IPv4 scan, UDP checks, timeout rechecks, and eight IPv6 ports measured; only HTTP reached among TCP ports tested | [MITRA-SERVICES-004](../experiments/network-software-004-008.md), [MITRA-DIAG-009](../experiments/mitra-diag-009.md), [MITRA-IPV6-013](../experiments/mitra-ipv6-013.md) |
+| Web resources | 63 Sophia paths audited; legacy configurator at `/padrao` discovered; `romfile.cfg` exported | [MITRA-WEB-005](../experiments/network-software-004-008.md), [MITRA-RES-011](../experiments/mitra-res-011.md), [MITRA-BACKUP-014](../experiments/mitra-backup-014.md) |
+| Diagnostic backend | Supplied ping options parsed; command punctuation (`;`) yielded empty output (no execution demonstrated) | [MITRA-DIAG-006](../experiments/network-software-004-008.md), [MITRA-DIAG-009](../experiments/mitra-diag-009.md) |
+| Outbound capture | Bounded samples complete; IPv6 RA/RDNSS observed; no suitable provisioning request in the observed intervals | [MITRA-PASSIVE-007](../experiments/network-software-004-008.md), [MITRA-PASSIVE-010](../experiments/mitra-passive-010.md) |
+| Exact firmware | No exact-build image/source acquired; settings export is not firmware | [MITRA-FW-008](../experiments/network-software-004-008.md), [MITRA-FW-012](../experiments/mitra-fw-012.md), [MITRA-BACKUP-014](../experiments/mitra-backup-014.md) |
+| Configuration route | Legacy support interface and disabled service entries discovered; SSH controls/apply behavior not yet inspected | [Configuration/firmware decision](configuration-and-firmware.md) |
 
-See the [first-round results](../experiments/network-software-004-008.md) for
-measurements, evidence hashes, and unresolved questions. The owner subsequently
-stopped Codex device testing and requested documentation first. No instruction
-was sent to Gemini. Resume testing only through the owner's chosen agent/route.
+The Sophia map did not describe the complete interface: a legacy configurator
+and working configuration export were subsequently found. Prioritize reading
+the legacy SSH management view and preparing a single LAN-only change with
+rollback. No service activation or firmware write was submitted. Board
+photographs remain useful; software possibilities have not been exhausted.
