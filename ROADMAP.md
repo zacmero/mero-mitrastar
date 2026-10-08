@@ -165,3 +165,5 @@ does not establish compatibility with this board/version.
 Flash writes, factory resets, bootloader changes, and other persistent device
 changes require an explicit instruction for that operation. No such operation
 is part of the repository-reset session.
+
+MITRA-SSH-015 has now reached the authenticated support vendor console through the native LAN SSH setting. Next: documented read-only console inventory, then determine whether a supported Linux-shell route exists. Configuration export freshness and persistence remain open. Owner plans powered-off board photographs tomorrow for the archive.

@@ -90,3 +90,5 @@ device-control scripts, generated probes, or old captures. Those files remain
 in the predecessor commit and the local archive. No Git history was rewritten.
 
 The merged configuration analysis is in [research/romfile-analysis.md](research/romfile-analysis.md). It distinguishes observed ACL entries from unverified daemon and restore behavior.
+
+Latest software step: [MITRA-SSH-015](docs/experiments/mitra-ssh-015.md) confirms the native LAN SSH controls; restricted LAN SSH is enabled after owner authorization, and the `support` vendor console is accessible. Linux shell access remains unproven.

@@ -156,6 +156,9 @@ marker-command test was submitted. See docs/experiments/network-software-004-008
 25. Review/publication of experiments 009–014 — complete documentation prepared;
     export hash/ACL fields verified, scope/daemon/firmware claims corrected.
     Separate master worktree used because the other agent is on romfile-analysis.
-26. MITRA-SSH-015 — pending: inspect legacy SSH view and prepare one LAN-only
-    configuration change with rollback. No apply or firmware write is part of
-    this review/publication instruction. See docs/tooling/configuration-and-firmware.md.
+26. MITRA-SSH-015 — complete for initial access: owner-authorized native LAN SSH opened Dropbear and the support vendor console. Software version and uptime queried. Linux shell and persistence remain unverified. See docs/experiments/mitra-ssh-015.md.
+
+- [x] MITRA-SSH-015: read native SSH controls and identify handler, session key, client restriction, and rollback.
+- [x] Obtain explicit policy-change instruction; submit restricted LAN SSH and verify live page, Dropbear banner, and authenticated support vendor console.
+- [ ] Verify export freshness and saved-policy persistence; inventory supported read-only console commands.
+- [ ] Archive owner-planned board photographs tomorrow, with device power disconnected.

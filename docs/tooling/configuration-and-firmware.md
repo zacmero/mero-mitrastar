@@ -81,3 +81,7 @@ exports private: readable settings and encrypted credential fields are still
 sensitive. The separate `romfile-analysis` branch's raw export is excluded from
 this master documentation publication. Do not treat a configuration export as
 a full flash recovery backup.
+
+## MITRA-SSH-015 result
+
+After explicit owner authorization, native LAN-only SSH with laptop client ranges opened Dropbear 2019.78. The support account reaches an interactive vendor console; remote exec requests are denied. Software version and uptime were queried successfully. Linux shell access, client-filter enforcement, and persistence across reboot remain unverified; downloaded exports still reflect the old ACL. Read [MITRA-SSH-015](../experiments/mitra-ssh-015.md) for the exact observations and remaining gates.

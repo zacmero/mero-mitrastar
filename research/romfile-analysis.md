@@ -14,8 +14,8 @@ original lab checkout. SHA-256:
 The export is readable vendor XML-like text with a `<ROMFILE>` root and
 `ConfigVersion="20171123"`. Python's standard XML parser rejects the captured
 bytes. Preserve the original bytes rather than reserialize the document.
-No visible signature block proves neither the absence of restore-time
-validation nor acceptance of edits. The firmware parser and integrity checks
+The absence of a visible signature block does not establish the absence of
+restore-time validation or acceptance of edits. The firmware parser and integrity checks
 have not been inspected. This is a settings backup, not a flash image.
 
 The raw file contains credential-bearing fields. It is excluded from the

@@ -38,3 +38,6 @@ Store raw files under `.local/captures/<UTC timestamp>/` or
 configuration exports can contain credentials; review them before quoting any
 content in tracked records. A capture hash identifies evidence without
 publishing its sensitive contents.
+
+
+Latest record: [MITRA-SSH-015 — native SSH management and vendor console](mitra-ssh-015.md).

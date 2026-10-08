@@ -304,3 +304,7 @@ documentation. Later experimental changes need their own commit/push instruction
 Raw evidence and the private credential record must remain ignored. Do not
 rewrite predecessor history. Report the next smallest justified test instead
 of claiming all software/network possibilities have been exhausted.
+
+# Latest SSH route — MITRA-SSH-015
+
+Branches merged into master at `2d70fd1`. Owner subsequently authorized native restricted LAN SSH. Live page shows LAN / port 22 / client range 192.168.15.3 only; Dropbear 2019.78 responds. `support` credentials yield a vendor console; remote exec requests are denied. Read [MITRA-SSH-015](docs/experiments/mitra-ssh-015.md) before continuing. Do not invoke console save, reset, or reboot to test persistence without a corresponding owner instruction. Downloaded configuration still shows old ACL; export freshness is unresolved. Photos are planned by owner for tomorrow.

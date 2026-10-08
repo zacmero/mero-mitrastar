@@ -262,3 +262,11 @@ prepare one isolated LAN-only service change. See
 docs/tooling/configuration-and-firmware.md. Hardware photos remain useful but
 the software route is not exhausted. Eight IPv6 ports were checked, not all
 ports; no marker was demonstrated, not a general proof of rejected commands.
+
+# Native SSH controls — MITRA-SSH-015
+
+The legacy SSH page is accessible and exposes Disable/LAN/WAN/Both, port 22, and secured client ranges. Its JavaScript submits to RemMagSSH.asp with a session key fetched from sessionkey.cgi. This verifies the configuration route exists; service availability and console access remain untested. See [inspection record](docs/experiments/mitra-ssh-015.md).
+
+After explicit owner authorization, the native LAN SSH form opened TCP 22 (Dropbear 2019.78). `support` password authentication reaches a vendor `>` console, not a confirmed Linux shell. Native exec requests are denied; `sys ?` lists state, software version, and uptime alongside mutating commands that were not invoked. The downloadable export still reflects the old ACL, so persistence is unverified.
+
+The support console directly reports firmware BR_SA_113WUK0b15 via `sys swversion`. `sys uptime` works; `net ?` exposes a route subcommand. These results establish a vendor inventory interface, not executable ABI or native shell access.

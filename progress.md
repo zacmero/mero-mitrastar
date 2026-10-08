@@ -239,3 +239,16 @@
 - Reconciled configuration analysis: daemon presence, boot hooks, parser integrity, console credentials, and restore recovery remain unverified.
 - Removed the raw export from the merged tree; earlier branch history still contains it. Original private evidence remains available locally.
 - Verified laptop `cris-MS-1454`, Ethernet `enp6s0` at `192.168.15.3/24`, route to `192.168.15.1`, and router neighbor `ac:c6:62:8d:99:78` before read-only SSH-page inspection.
+
+# MITRA-SSH-015 — 2026-10-08
+
+- Completed authenticated read-only inspection of native SSH page, submission script, and session-key endpoint.
+- Confirmed port 22, Disable selected, LAN option, and four client IP range pairs.
+- Prepared restricted LAN proposal and Disable rollback; requested explicit policy-change authorization under AGENTS.md. No settings submitted.
+- Record: [MITRA-SSH-015](docs/experiments/mitra-ssh-015.md).
+
+- Owner authorized restricted LAN SSH. Native form applied successfully; live readback shows LAN, port 22, range restricted to laptop. Dropbear 2019.78 banner observed.
+- `support` authenticated and reached an interactive vendor console; `id` rejected, `?` and `sys ?` list vendor commands. Exec requests denied; Linux shell not established.
+- Downloaded export still contains pre-change ACL; export freshness and reboot persistence remain unresolved. No reset, reboot, save, or firmware write performed.
+
+- Console `sys swversion` directly confirms BR_SA_113WUK0b15; `sys uptime` and `net ?` queried successfully. Sessions closed normally; authorized LAN SSH remains enabled.
