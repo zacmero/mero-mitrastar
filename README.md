@@ -1,109 +1,79 @@
 # Mero MitraStar
 
-Ethernet-first investigation of a **MitraStar DSL-100HN-T1-NV Vivo Box**.
-The first execution milestone is a tiny program running from writable temporary
-storage on the router, after obtaining a shell and checking its binary ABI.
+Investigation of a **MitraStar DSL-100HN-T1-NV Vivo Box**, aiming for a genuine operating-system shell and a tiny native program running from verified writable temporary storage.
 
-## Current evidence
+## Current checkpoint — 2026-10-26
 
-- The owner logged into
-  [the management UI](http://192.168.15.1/cgi-bin/html_sophia/sophia_main.html)
-  using the device-label credentials, and changed the language to English.
-- The UI reports software `BR_SA_113WUK0b15` and hardware `tmp_hardware1.0`.
-- Direct Ethernet is verified through laptop `cris-MS-1454`: `enp6s0` at
-  `192.168.15.3`, 100 Mb/s full duplex, expected router MAC, and HTTP 200 from
-  the management page. SSH control uses the laptop's Wi-Fi at `192.168.1.80`.
-- Board photographs identify the MT7505N main package and MXIC 25L12835F flash
-  marking on this unit. A populated header is a UART candidate; its pins and
-  voltage remain unmeasured. Linux shell, runtime CPU details, and ABI remain
-  unverified. See [board review](docs/experiments/mitra-board-017.md).
+**Read [HANDOFF.md](HANDOFF.md) first.** The complete new session is [MITRA-HARDWARE-020](docs/experiments/mitra-hardware-020.md), including exact readings, Linux Mint output, limitations and corrections to earlier advice.
 
-## Start here
+| Area | Current evidence |
+| --- | --- |
+| Management access | Earlier experiments reached native management and restricted LAN SSH with a `support` vendor CLI. Linux shell remains unestablished. |
+| Programmer | CH341A enumerates in both programmer (`1a86:5512`) and serial (`1a86:5523`, `/dev/ttyUSB0`) modes on Mint. No flash was attached to the probe; no actual read/write test was completed. |
+| Electrical blocker | Owner measured 3.31 V at the 3.3 V rail but approximately 5 V at the reported data contacts. Do not connect this unmodified programmer directly to the router's 3.3 V signals. |
+| Mechanical blocker | The supplied SOIC8 clip cannot seat around the flash because the nearby header and another component obstruct it. This is independent of the voltage problem. |
+| Header measurements | Owner reports ground continuity at the farthest populated pin from the flash. Powered readings toward the flash: **0 / 3.2 / 3.3 / 3.3 V**. TX/RX/VCC remain unassigned; no UART log has been captured. |
+| Missing equipment | ESP32 ordered but not arrived; **no female–female jumper wires or soldering equipment** available. |
+| Immediate decision | Pause MitraStar hardware work; pursue the separate [Askey Ethernet-first handoff](https://github.com/zacmero/mero-askey/blob/main/HANDOFF.md) while awaiting a usable serial setup. |
 
-For the next agent, read the [complete handoff](HANDOFF.md) first. It records
-access, completed measurements, private prerequisites, and the exact next test.
+The yellow jumper selects programmer/TTL mode, **not voltage**. Continuity readings and candidate controller pins were not sufficiently established for a repair map; see the raw observations in 020. Do not repeat the unsuccessful probe loop or present a solder repair as an immediate no-cost step.
 
-1. Read the [device inventory](docs/hardware/device.md).
-2. Establish the [direct Ethernet lab](docs/tooling/ethernet-lab.md), preserving
-   the laptop's SSH control path.
-3. Follow the [roadmap](ROADMAP.md) and record each result using the
-   [experiment format](docs/experiments/README.md).
+### Buying list
 
-[Research leads](research/mitrastar-leads.md) distinguish reported findings
-from local observations. [Predecessor provenance](docs/reference/predecessor.md)
-explains what was retained from the copied Sagemcom project and how to recover
-its files. The original device's results do not describe this router.
+[**BUYING-LIST.md**](BUYING-LIST.md) contains the exact female–female Dupont lead requirements, checked Brazilian listings and the Todoist task. Only the missing leads are on the immediate shopping list; the ESP32 is already ordered. No purchase has been placed by the agent.
 
-[MITRA-NET-001](docs/experiments/mitra-net-001.md) records the Ethernet result.
-[MITRA-UI-002](docs/experiments/mitra-ui-002.md) independently confirms identity
-and inventories the authenticated UI. [MITRA-ACCESS-003](docs/experiments/mitra-access-003.md)
-records successful local Ping/TraceRoute and a completed unresolved DNS lookup,
-plus the verified published Snake method. No shell is established; backend
-diagnostic implementation remains the next network research question.
+## Device identity and preserved evidence
 
-The [network/software plan](docs/tooling/network-software-plan.md) records the
-methodical follow-ups. [First-round results](docs/experiments/network-software-004-008.md)
-cover all TCP ports, UDP checks, resource mapping, supplied ping options, and
-LAN captures. Only TCP 80 accepted connections; UDP DNS replied with REFUSED.
-[MITRA-DIAG-009](docs/experiments/mitra-diag-009.md) records the TCP 161 timeout
-recheck and the bounded command-punctuation comparison. Semicolon input returned empty output;
-no command execution was demonstrated.
-[MITRA-PASSIVE-010](docs/experiments/mitra-passive-010.md) records the clean 30-second
-idle capture, discovering autonomous IPv6 Router Advertisements with recursive DNS,
-and single HTTP action attribution.
-[MITRA-RES-011](docs/experiments/mitra-res-011.md) inventories 63 referenced UI paths,
-confirming no backup, export, or firmware-upload facilities in the captured interface.
-[MITRA-FW-012](docs/experiments/mitra-fw-012.md) analyzes firmware and vulnerability sources,
-noting no exact-build firmware/GPL located in the recorded search and no demonstrated
-applicability of the historical Spanish-firmware SSH behavior.
-[MITRA-IPV6-013](docs/experiments/mitra-ipv6-013.md) measures IPv6 link-local management
-ports, finding port 80 open among eight tested ports, port 7547 refused, and
-ports 21, 22, 23, and 443 timed out.
-[MITRA-BACKUP-014](docs/experiments/mitra-backup-014.md) discovers the legacy configurator
-at `/padrao`, authenticates administrative user `support`, exports the router configuration
-`romfile.cfg`, and confirms configuration entries for Telnet, SSH, FTP, SNMP, HTTPS,
-and TR64 with interfaces set to `Disable`. Running daemons and shell privileges
-remain unverified. This discovery provides a concrete software lead.
+- UI: software `BR_SA_113WUK0b15`, hardware string `tmp_hardware1.0`.
+- [Board photographs](board_pictures/README.md): MT7505N and MXIC 25L12835F markings observed on this unit. The flash's published density is 16 MiB; no full dump has been acquired.
+- [Device inventory](docs/hardware/device.md) and [board review](docs/experiments/mitra-board-017.md) retain the earlier observations. Their original statements that no header measurements existed are superseded by the owner-reported measurements in 020, not by a completed UART pinout.
+- The earlier direct Ethernet link was through `cris-MS-1454`, with `enp6s0` at `192.168.15.3` and Wi-Fi control at `192.168.1.80`. These are **historical topology values**, not the current Mint session's verified configuration. Recheck interface, route and target identity before traffic.
+- Bootloader/runtime CPU details, ELF ABI, root shell, flash layout and recovery remain unverified on this unit.
 
-Restricted LAN SSH and vendor console inventory are complete for the initial
-round. Next: identify the console handler implementation and measure the board
-UART candidate. Read the [configuration/firmware decision](docs/tooling/configuration-and-firmware.md).
-The export is a settings backup, not a firmware image; custom firmware remains
-a later branch after image, layout, and recovery verification.
+## Investigation index
 
+| Record | Result / purpose |
+| --- | --- |
+| [MITRA-NET-001](docs/experiments/mitra-net-001.md) | Verified Ethernet connectivity and initial bounded service baseline. |
+| [MITRA-UI-002](docs/experiments/mitra-ui-002.md) | Authenticated Sophia UI inventory and device identity. |
+| [MITRA-ACCESS-003](docs/experiments/mitra-access-003.md) | Local diagnostic results and exact-model firmware-modification precedent; no shell. |
+| [Network/software 004–008](docs/experiments/network-software-004-008.md) | Initial TCP/UDP checks, resources, diagnostic arguments and LAN captures. |
+| [MITRA-DIAG-009](docs/experiments/mitra-diag-009.md) | Punctuation comparison produced no marker; no demonstrated command execution. |
+| [MITRA-PASSIVE-010](docs/experiments/mitra-passive-010.md) | Idle capture and action attribution. |
+| [MITRA-RES-011](docs/experiments/mitra-res-011.md) | Sophia-only resource map; its missing controls did not describe the whole firmware. |
+| [MITRA-FW-012](docs/experiments/mitra-fw-012.md) | Firmware/source and historical-vulnerability research, with applicability limits. |
+| [MITRA-IPV6-013](docs/experiments/mitra-ipv6-013.md) | Bounded IPv6 management-port results. |
+| [MITRA-BACKUP-014](docs/experiments/mitra-backup-014.md) | Discovered `/padrao`, authenticated `support`, obtained a settings export. |
+| [MITRA-SSH-015](docs/experiments/mitra-ssh-015.md) | Authorized restricted LAN SSH opened Dropbear 2019.78; authenticated vendor console, not Linux shell. |
+| [MITRA-CLI-016](docs/experiments/mitra-cli-016.md) | Read-only vendor command and status inventory. |
+| [MITRA-BOARD-017](docs/experiments/mitra-board-017.md) | Seventeen-photo archive and physical chip markings. |
+| [MITRA-SOFTWARE-018](docs/experiments/mitra-software-018.md) | Fresh export generation, restricted SSH policy, rejected exec/SFTP requests. |
+| [MITRA-SOFTWARE-019](docs/experiments/mitra-software-019.md) | Working legacy status/log views and native firmware-upload form; no matching image or shell. |
+| [MITRA-HARDWARE-020](docs/experiments/mitra-hardware-020.md) | New programmer, voltage/clip blockers, Mint USB results and owner UART-header measurements. |
 
-## Working layout
+The original TCP-80-only scans preceded authorized SSH activation; do not mistake them for the latest policy. A settings export is not kernel/root-filesystem/bootloader firmware. The upload form's presence does not establish image compatibility or recovery.
 
-Use one checkout: `/home/zacmero/projects/mero-mitrastar`, on `master`. The
-temporary `mero-mitrastar-docs` worktree has been removed. All documentation,
-photos, and ignored lab evidence live inside this project.
+## References and next milestones
+
+[Research leads](research/mitrastar-leads.md) include Maycon Vitali's SPI and UART articles and Luiz Boina's independent investigations. Maycon's use of individual test clips is now distinguished from our bulky clip's failed fit. [Configuration/firmware decision](docs/tooling/configuration-and-firmware.md) and [romfile analysis](research/romfile-analysis.md) preserve the software work.
+
+Use [task_plan.md](task_plan.md) and the current handoff for next actions. The broader [roadmap](ROADMAP.md), `findings.md` and `progress.md` contain historical steps; 020/current handoff supersede old pending instructions. The next MitraStar hardware milestone is a validated, voltage-compatible receive-only UART capture after equipment is available—not a flash rewrite. No guarantee of shell access follows from a UART header.
+
+Related projects: [Askey](https://github.com/zacmero/mero-askey), [GVT receiver reference audit](https://github.com/zacmero/mero-stb-lab/blob/main/research/uart-reference-audit-2026-10-26.md). Device-specific findings must not be transferred between them.
+
+## Workspace and evidence hygiene
+
+Canonical main-machine checkout: `/home/zacmero/projects/mero-mitrastar`, branch `master`. The older temporary `mero-mitrastar-docs` worktree was removed. Original photos and ignored evidence remain local to that checkout.
 
 ```text
-docs/hardware/       this unit's identity and observed capabilities
-docs/tooling/        host topology and reproducible lab procedures
-docs/experiments/    dated results, evidence references, and negative findings
-docs/reference/     predecessor provenance and reusable techniques
-research/           external leads and verification status
-board_pictures/     original photo archive, reviewed JPEGs, index and hashes
-.local/             ignored raw captures, exports, archives, and build output
+docs/hardware/       identity and observed capabilities
+docs/tooling/        host topology and reproducible procedures
+docs/experiments/    dated results, limitations and artifact references
+research/           external sources and applicability
+board_pictures/     reviewed photographs, local originals and hashes
+.local/             ignored captures, credentials, exports and binaries
 ```
 
-Shell commands must start with `rtk`; use `rtk proxy` when raw output or a
-tool's unsupported subcommand is needed. Raw traffic and exported settings may
-contain credentials. Store them locally; commit reviewed summaries and hashes.
+Use `rtk`/`rtk proxy` in the established main-machine workflow; do not assume RTK exists on Mint. The [Ethernet runbook](docs/tooling/ethernet-lab.md) preserves the control-path method. Keep passwords, session cookies, exports and raw dumps private; commit reviewed summaries and genuine hashes only.
 
-The active workspace was reset on 2026-10-07. It contains no inherited firmware,
-device-control scripts, generated probes, or old captures. Those files remain
-in the predecessor commit and the local archive. No Git history was rewritten.
-
-The merged configuration analysis is in [research/romfile-analysis.md](research/romfile-analysis.md). It distinguishes observed ACL entries from unverified daemon and restore behavior.
-
-Latest software step: [MITRA-SSH-015](docs/experiments/mitra-ssh-015.md) confirms the native LAN SSH controls; restricted LAN SSH is enabled after owner authorization, and the `support` vendor console is accessible. Linux shell access remains unproven.
-
-Latest console inventory: [MITRA-CLI-016](docs/experiments/mitra-cli-016.md) documents read-only command usage, LAN4 link, br0, memory/CPU/NAT snapshots, and private TR-069/Wi-Fi status captures. Linux shell access remains unproven.
-
-Board archive: [17 photographs and visual findings](board_pictures/README.md). Original HEIC files remain local; metadata-stripped JPEG copies are tracked.
-
-[MITRA-SOFTWARE-018](docs/experiments/mitra-software-018.md) resolves fresh backup generation: wait for generation to finish before downloading; this run took 14.229 seconds. The new export matches restricted LAN SSH. Authenticated vendor-command exec and SFTP requests are rejected. Native `net route disp` works and currently shows no IPv4 default route.
-
-[MITRA-SOFTWARE-019](docs/experiments/mitra-software-019.md) confirms working legacy log/traffic displays and a native firmware-upload interface. No image was uploaded or acquired. Current native link is LAN2 at 100 Mb/s/full duplex. Related SDK code does not match this console/build; next access evidence is measured UART/serial or a verified matching firmware image.
+The 2026-10-07 reset preserved the copied Sagemcom history and local archive. [Predecessor provenance](docs/reference/predecessor.md) explains recovery; it is not this router's firmware or pinout. No history was rewritten. The [previous README](https://github.com/zacmero/mero-mitrastar/blob/7ab49991483ac447412c1b35fa7ceb560715d611/README.md) remains available for the earlier checkpoint.
