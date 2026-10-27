@@ -1,195 +1,39 @@
-# MitraStar repository reset — 2026-10-07
+# Current task plan — 2026-10-26
 
-## Objective
+Goal: genuine MitraStar OS shell, verified runtime ABI, then a tiny native program in temporary storage. Read [HANDOFF.md](HANDOFF.md) and [MITRA-HARDWARE-020](docs/experiments/mitra-hardware-020.md) before acting.
 
-Recognize and document the DSL-100HN-T1-NV, clean the copied Sagemcom
-workspace while retaining reusable methods, and define Ethernet-first steps
-toward executing a tiny program in RAM.
+The previous chronological plan, covering the reset and experiments 001–019, is preserved [at the prior checkpoint](https://github.com/zacmero/mero-mitrastar/blob/7ab49991483ac447412c1b35fa7ceb560715d611/task_plan.md). Individual experiment reports, `findings.md`, `progress.md` and Git history are retained. Their older pending items are not a reason to repeat completed work.
 
-## Phases
+## Completed and recorded
 
-1. Inventory the copied repository and current host topology — complete.
-2. Document this unit and attempt source verification — complete; claims remain
-   unverified because original sources could not be retrieved.
-3. Preserve predecessor provenance and replace the active workspace — complete.
-4. Write the direct-Ethernet runbook and staged investigation roadmap — complete.
-5. Verify repository hygiene and document remaining prerequisites — complete.
-6. Verify laptop SSH and inspect the newly connected Ethernet link — complete;
-   MITRA-NET-001 records the verified connection and bounded TCP/HTTP baseline.
+- [x] Preserve and index earlier software investigations 001–019: native management, settings export, restricted LAN SSH and vendor CLI, rejected exec/SFTP, native upload interface, board photographs.
+- [x] Record received CH341A kit, adapters and SOIC8 ribbon; distinguish them from still-missing Dupont leads and incoming ESP32.
+- [x] Record actual unconnected programmer voltages: 3.31 V, 5.03 V, 4.92 V and 5.03 V at the discussed contacts; preserve the MISO/MIOS label ambiguity.
+- [x] Preserve all reported continuity tests, unstable 23–43 ohm candidate-pin result and uncertainty over continuity-display units. Do not promote the earlier photo markers into a verified repair map.
+- [x] Record Mint programmer-mode enumeration and expected no-chip result with the clip disconnected.
+- [x] Record serial-mode enumeration `1a86:5523` and `/dev/ttyUSB0`. No actual router UART traffic tested.
+- [x] Record SOIC8 physical obstruction by the header and neighboring component, independently of the voltage problem.
+- [x] Record owner-measured header ground and farthest-to-closest populated-pin voltages: 0 / 3.2 / 3.3 / 3.3 V. TX/RX/VCC remain unknown.
+- [x] Add [buying list](BUYING-LIST.md) and Todoist task for one female–female jumper set, with listing and dated price; no order placed.
+- [x] Prepare [mero-askey handoff](https://github.com/zacmero/mero-askey/blob/main/HANDOFF.md) as the next independent Ethernet/software investigation.
 
-## Decisions
+## Paused MitraStar hardware work
 
-- User-reported UI identity is evidence about this unit; partner research is
-  evidence about other units until independently checked.
-- Preserve the original Git commit and a reference to its reusable Ethernet
-  methodology. Retire old executable tooling with hardcoded Sagemcom targets.
-- Do not change host networking until the actual cable-facing machine and
-  interface are identified. The current host routes 192.168.15.1 through its
-  household gateway, not a directly connected 192.168.15.0/24 interface.
-- Keep raw captures, configuration exports, secrets, and build output out of
-  the tracked workspace.
-- Owner clarified current access is Wi-Fi, not Ethernet. Finish repo work
-  before rewiring, SSH testing, or direct-device connection.
-- `arch-local` is the laptop-to-main SSH alias. Do not assume it addresses the
-  laptop from the main machine.
-- Owner subsequently connected the laptop to the main network via Wi-Fi and
-  to the MitraStar via Ethernet, and authorized SSH/link testing now.
+- [ ] Receive the already ordered ESP32 and obtain individual female–female 2.54 mm leads.
+- [ ] Identify the actual ESP32/module variant, load and validate suitable serial-bridge firmware, and establish safe 3.3 V receive-only interfacing.
+- [ ] Use an unambiguous photo orientation for the four populated header positions; identify TX through actual serial activity, not a 3.2/3.3 V guess.
+- [ ] Capture boot output and classify it: log / bootloader / vendor CLI / login / OS shell. Initial literature candidate is 115200 8N1, not a measured setting.
+- [ ] After actual shell access, measure ABI and executable temporary storage before compiling/transferring the first native program.
 
-## Errors / constraints
+Do not attach the presently uncorrected CH341A, force the clip, remove the UART header, or restart the same multimeter loop. No soldering equipment exists in this session. A documented CH341A repair is a separate future decision requiring appropriate tools, verified mapping and post-repair electrical checks.
 
-- Web search failed twice with a response decoding error. Use an alternative
-  research transport; record inaccessible sources as unverified.
-- Cable-facing laptop hostname/user/interface are not yet provided.
-- Alternate search connector returned an empty error response. Direct search
-  attempts did not identify the articles; Kitz returned bot verification and
-  Hack N Roll's current homepage did not establish the cited investigation.
-- First hygiene check found four untracked, previously ignored old probe
-  artifacts outside the archive. Preserved them under .local/predecessor and
-  repeated the check.
-- Default-key SSH to cris@192.168.1.80 failed authentication. The existing
-  mero_stb_isolated_lab key succeeded with IdentitiesOnly=yes. No tunnel needed.
-- RTK/nmap are absent on the laptop. Main commands used rtk proxy ssh with
-  native remote payloads; bounded source-bound stdlib TCP checks replaced nmap.
+## Separate future SPI branch — not required for the Askey start
 
-## Completion
+- [ ] Choose a physically workable contact method and electrically safe programmer.
+- [ ] Establish in-circuit isolation/back-powering conditions or a competent off-board method.
+- [ ] Acquire repeatable matching full-chip backups, preserve hashes and private originals, inspect the real image and recovery method.
+- [ ] Only then propose a specific firmware change with explicit owner authorization. A settings export or a similar-model internet image is not an original full backup.
 
-Repo reset, documentation, roadmap, archive verification, and authorized direct
-connection checks are complete locally. No Git commit/push has been made.
-Next investigation: authenticated read-only UI inventory (MITRA-UI-002).
+## Immediate next project
 
-## Follow-up — MITRA-UI-002
-
-Owner committed/pushed the reset and requested proceeding with the management
-inventory. The working tree was clean at the start of this phase.
-
-7. Recheck laptop/device identity and fetch observed frame/menu pages — complete.
-8. Inspect read-only status, version, diagnostics, and management surfaces — complete;
-   active browser login confirmed and protected pages inspected.
-9. Record capabilities, access barriers, and the next shell-access experiment —
-   complete; MITRA-UI-002 written, temporary browser/tunnel removed, checks passed.
-
-Do not assume the owner's browser login authenticates a separate HTTP client.
-Follow observed UI resources; do not submit configuration forms.
-
-## Follow-up errors resolved
-
-- HTTP helper initially imported SimpleCookie from html.cookies; corrected to
-  http.cookies before any login. Noninteractive tool stdin was closed; used an
-  echo-disabled transient PTY for sensitive stdin.
-- Inactive uiApply login helper did not match the actual clicklogin handler.
-  Active flow includes a page-issued SID in the MD5 input. Mero Browser executed
-  the real login flow successfully; the owner-supplied password was valid.
-- Wrapper's installed version accepts snippets on stdin, not -c. Used the
-  repo wrapper's supported stdin interface, retaining the Mero workspace contract.
-- Browser frame coordinate filling was unreliable; native CDP DOM focus and a
-  verified population check succeeded before submission.
-
-## MITRA-UI-002 completion
-
-Authenticated inventory is complete. No visible shell control was found; next
-is MITRA-ACCESS-003. Dedicated browser/daemon/tunnel/profile and the remote
-transient helper were removed. Local docs/evidence/credential checks passed.
-New repository changes remain local and uncommitted.
-
-## Follow-up — MITRA-ACCESS-003: diagnostic handler investigation
-
-Owner authorized inspecting the diagnostic route first and emphasized the
-reported successful Snake firmware modification as a retained alternative.
-
-10. Map active diagnostic validation, request fields, and result handling — complete.
-11. Recheck Ethernet identity, authenticate, and run one loopback ping — complete;
-    local TraceRoute and DNS lookup also completed with bounded targets.
-12. Record backend evidence/limitations and compare next steps with Snake route —
-    complete; see docs/experiments/mitra-access-003.md. No shell obtained.
-
-Keep this experiment bounded. Do not submit firmware, change router policy,
-reset/reboot, or test disruptive payloads. Browser login credentials remain
-authorized from the previous turn and must stay out of commands/tracked files.
-
-Source retrieval: built-in web search still returns a response decoding error.
-Requested original article URLs while independent diagnostic work proceeds.
-
-Pulled source-index commit 076d8fb with local changes preserved. Original Boina
-articles were retrieved via the author's Medium RSS feed. His Snake route uses
-physical SPI extraction/reprogramming, not an Ethernet shell exploit. Diagnostic
-baseline is complete; server-side validation and this unit's ABI remain unknown.
-# Follow-up — network/software sequence
-
-Owner requested recording and executing all five network/software stages
-methodically. The detailed bounds and WAN visibility alternatives are in
-docs/tooling/network-software-plan.md. Persistent router/network changes remain
-outside this instruction.
-
-13. MITRA-SERVICES-004: full TCP coverage and initial UDP discovery — complete;
-    longer TCP 161 check and any justified protocol follow-ups remain open.
-14. MITRA-WEB-005: initial referenced resource map — complete; nine pages,
-    six scripts, 55 candidate paths; server-side implementation unavailable.
-15. MITRA-DIAG-006: harmless variants — complete; supplied -s 0 changed ping
-    payload to zero bytes. General command handling and shell access remain open.
-16. MITRA-PASSIVE-007: two bounded LAN captures — complete; no suitable
-    router-originated WAN request identified and the DSL path is unobserved.
-17. MITRA-FW-008: initial official source check — complete; exact-build source
-    identification and offline analysis remain open.
-
-The owner stopped Codex router testing, proposed a Gemini handoff, then asked
-to finish documentation here first. No message was sent to Gemini and no
-marker-command test was submitted. See docs/experiments/network-software-004-008.md.
-
-18. Owner subsequently requested the complete handoff file and commit/push —
-    HANDOFF.md prepared with access/restoration procedures, evidence, next tests,
-    interpretation criteria, and private local prerequisites. The owner will
-    instruct Gemini directly. No new device testing or Herdr prompt was issued.
-19. MITRA-DIAG-009: TCP 161 recheck and command-punctuation comparison — complete;
-    TCP 161 confirmed timeout at 2.0s; '127.0.0.1; printf ...' returned empty
-    output (no execution demonstrated). Baseline ping confirmed functional.
-20. MITRA-PASSIVE-010: clean 30-second idle capture and action attribution — complete;
-    autonomous IPv6 Router Advertisement/RDNSS discovered; no provisioning request in the observed interval.
-21. MITRA-RES-011: offline resource and handler inventory — complete; 63 paths and
-    603 strings audited in Sophia; absence there did not cover the later-discovered legacy interface.
-22. MITRA-FW-012: Firmware and vulnerability research — complete; no exact-build
-    firmware/GPL acquired; historical SSH route not reached, build applicability untested.
-23. MITRA-IPV6-013: eight IPv6 link-local ports checked — complete; only port 80 open among those;
-    port 7547 actively refused (RST); ports 21, 22, 23, and 443 remain filtered.
-24. MITRA-BACKUP-014: Legacy configurator, support authentication, and romfile export — complete;
-    authenticated user 'support', downloaded romfile.cfg (93,315 bytes), confirmed internal ACL.
-
-25. Review/publication of experiments 009–014 — complete documentation prepared;
-    export hash/ACL fields verified, scope/daemon/firmware claims corrected.
-    Separate master worktree used because the other agent is on romfile-analysis.
-26. MITRA-SSH-015 — complete for initial access: owner-authorized native LAN SSH opened Dropbear and the support vendor console. Software version and uptime queried. Linux shell and persistence remain unverified. See docs/experiments/mitra-ssh-015.md.
-
-- [x] MITRA-SSH-015: read native SSH controls and identify handler, session key, client restriction, and rollback.
-- [x] Obtain explicit policy-change instruction; submit restricted LAN SSH and verify live page, Dropbear banner, and authenticated support vendor console.
-- [x] Verify export freshness and inventory supported read-only console commands (016/018).
-- [ ] Controlled saved-policy persistence test remains unperformed; short uptime with retained SSH is supporting evidence only.
-- [x] Archive owner-supplied board photographs; acquisition power state was not independently observed.
-
-27. MITRA-CLI-016 — complete: read-only vendor command map and system/network snapshots.
-28. Pending: establish exact-build console/SSH/telnetd handler behavior through matching code or firmware; do not invoke unexplained flags.
-
-29. MITRA-BOARD-017 — complete: one canonical checkout, 17-photo archive/index/hash verification, visual part identification.
-- [x] Archive owner board photographs in this repo, preserving original HEIC bytes.
-- [ ] Measure UART candidate ground, logic voltage/activity, and pin assignments before adapter attachment.
-
-# Software follow-up round — complete
-
-30. Complete: reverified laptop/device topology and existing SSH/HTTP state.
-31. Complete: native backup generation took 14.229 seconds; fresh export matches live restricted LAN SSH.
-32. Complete for this round: authenticated vendor exec/SFTP requests rejected; route display and referenced web status queried. Primary-source search did not establish telnetd flag semantics.
-33. Complete: MITRA-SOFTWARE-018 records results, limitations, private hashes, and next questions in the canonical repo.
-
-No reset/reboot, policy change, service activation, firmware write, or hardware hookup is included in this round.
-
-34. Next software round: exact-build firmware/console handler evidence and remaining referenced status/log views. No matching firmware acquired yet; do not infer `sys telnetd -t` behavior from unrelated implementations.
-
-# Status/log and implementation follow-up — complete
-
-35. Complete: topology, working legacy log/traffic tabs and referenced read-only displays verified.
-36. Complete for this bounded search: related SDK inspected; different command set and Dropbear version, no exact-build image/handler acquired.
-37. Complete: MITRA-SOFTWARE-019 records native upload interface, inventory snapshots, source limits, and evidence hashes.
-
-This round remains read-only: no service activation, router save/reset/reboot, or firmware operation.
-
-38. Next access experiment: measure this board’s UART candidate, then passive serial capture after compatibility checks. Matching firmware/source or verified flash acquisition remains a software-analysis prerequisite.
-
-019 errors: incorrect Sophia default-status filename returned 404; followed actual frame references. External code-search suggested a missing source path and failed its parallel import; direct GitHub tree/raw retrieval succeeded.
+The owner's next hands-on target is the **Askey RTV9015VW**. Follow its own handoff, beginning with Linux Mint interface/route/device identification and bounded management checks. This documentation publication has performed **no Askey device test**. Do not transfer MitraStar credentials, topology, firmware assumptions or hardware measurements to it.
